@@ -111,7 +111,15 @@ function getList_by_list_ID($list_ID)
 function newList($title, $description, $email = "", $workspace_name = "", $group_ID = "")
 {
    global $db;
+   $query = "SHOW TABLE STATUS LIKE 'lists'";
+   $statement = $db->prepare($query);
+   $statement->execute();
 	
+   // fetchAll() returns an array for all of the rows in the result set
+   // fetch() return a row
+   $result = $statement->fetch();
+   $list_ID = $result['Auto_increment'];
+
    // insert into friends (name, major, year) values ('someone', 'CS', 4);
    $query = "INSERT INTO lists VALUES (DEFAULT, :title, :description)";
    
@@ -123,14 +131,6 @@ function newList($title, $description, $email = "", $workspace_name = "", $group
    // false otherwise
    $statement->closeCursor();
 
-   $query = "SHOW TABLE STATUS LIKE 'lists'";
-   $statement = $db->prepare($query);
-   $statement->execute();
-	
-   // fetchAll() returns an array for all of the rows in the result set
-   // fetch() return a row
-   $result = $statement->fetch();
-   $list_ID = $result['Auto_increment'];
    // closes the cursor and frees the connection to the server so other SQL statements may be issued
    $statement->closeCursor();
 

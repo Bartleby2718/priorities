@@ -1,4 +1,3 @@
-<?php echo "Hello World @^_^@" ?>
 <?php
 // include('connectdb.php');
 require('connectdb.php');
