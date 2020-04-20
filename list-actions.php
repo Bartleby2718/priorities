@@ -1,27 +1,27 @@
 <?php 
 
-function create_list()
-{
-   global $db;
-   $query = "CREATE TABLE IF NOT EXISTS friends (
-             name VARCHAR(30) PRIMARY KEY,
-             major VARCHAR(20),
-             year INT(1) )";
+// function create_list()
+// {
+//    global $db;
+//    $query = "CREATE TABLE IF NOT EXISTS list (
+//              name VARCHAR(30) PRIMARY KEY,
+//              major VARCHAR(20),
+//              year INT(1) )";
 	
-   $statement = $db->prepare($query);
-   $statement->execute();
-   $statement->closeCursor();
-}
+//    $statement = $db->prepare($query);
+//    $statement->execute();
+//    $statement->closeCursor();
+// }
 
-function drop_list()
-{
-   global $db;
-   $query = "DROP TABLE friends";
+// function drop_list()
+// {
+//    global $db;
+//    $query = "DROP TABLE friends";
 	
-   $statement = $db->prepare($query);
-   $statement->execute();
-   $statement->closeCursor();
-}
+//    $statement = $db->prepare($query);
+//    $statement->execute();
+//    $statement->closeCursor();
+// }
 
 // Prepared statement (or parameterized statement) happens in 2 phases:
 //   1. prepare() sends a template to the server, the server analyzes the syntax
@@ -36,11 +36,16 @@ function drop_list()
 //      execute() actually executes the SQL statement
 
 
-function getAllLists()
+function getAllListsRelevant($workspace_name = "", $email, $group = "")
 {
    global $db;
-   $query = "select * from lists";
-   $statement = $db->prepare($query);
+   if ($workspace_name != "") {
+      $query = "select * from lists WHERE workspace_name=:workspace_name AND email=:email";
+      $statement = $db->prepare($query);
+      $statement->bindValue(':workspace_name', $workspace_name);
+      $statement->bindValue(':email', $email);
+      
+   }
    $statement->execute();
 	
    // fetchAll() returns an array for all of the rows in the result set
@@ -53,13 +58,14 @@ function getAllLists()
 }
 
 
-function getFriendInfo_by_name($name)
+function getList_by_list_ID($list_ID)
 {
    global $db;
+   echo "hello";
 	
-   $query = "select * from friends where name = :name";
+   $query = "select * from lists where list_ID = :list_ID";
    $statement = $db->prepare($query);
-   $statement->bindValue(':name', $name);
+   $statement->bindValue(':list_ID', $list_ID);
    $statement->execute();
 	
    // fetchAll() returns an array for all of the rows in the result set
@@ -73,18 +79,17 @@ function getFriendInfo_by_name($name)
 }
 
 
-function addFriend($name, $major, $year)
+function newList($title, $description)
 {
    global $db;
 	
    // insert into friends (name, major, year) values ('someone', 'CS', 4);
-   $query = "INSERT INTO friends VALUES (:name, :major, :year)";
+   $query = "INSERT INTO lists VALUES (DEFAULT, :title, :description)";
    
-   echo "addFriend: $name : $major : $year <br/>";
+   echo "newList: $title : $description <br/>";
    $statement = $db->prepare($query);
-   $statement->bindValue(':name', $name);
-   $statement->bindValue(':major', $major);
-   $statement->bindValue(':year', $year);
+   $statement->bindValue(':title', $title);
+   $statement->bindValue(':description', $description);
    $statement->execute();     // if the statement is successfully executed, execute() returns true
    // false otherwise
 		
@@ -107,15 +112,36 @@ function updateFriendInfo($name, $major, $year)
 }
 
 
-function deleteFriend($name)
+function removeList($list_ID, $workspace_name, $email)
 {
    global $db;
 	
-   $query = "DELETE FROM friends WHERE name=:name";
+   $query = "DELETE FROM workspace_list_connection WHERE list_ID=:list_ID AND workspace_name=:workspace_name AND email=:email";
    $statement = $db->prepare($query);
-   $statement->bindValue(':name', $name);
+   $statement->bindValue(':list_ID', $list_ID);
+   $statement->bindValue(':workspace_name', $workspace_name); //temporary
+   $statement->bindValue(':email', $email); //temporary
    $statement->execute();
+
+   $query = "select * from lists, workspace_list_connection where list_ID = :list_ID";
+   $statement = $db->prepare($query);
+   $statement->bindValue(':list_ID', $list_ID);
+   $statement->execute();
+	
+   // fetchAll() returns an array for all of the rows in the result set
+   // fetch() return a row
+   $results = $statement->fetch();
+   if (empty($results)) {
+      $query = "DELETE FROM lists WHERE list_ID=:list_ID";
+      $statement = $db->prepare($query);
+      $statement->bindValue(':list_ID', $list_ID);
+      $statement->execute();
+   }
+
+
    $statement->closeCursor();
+
+
 }
 ?>
 
