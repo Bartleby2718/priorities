@@ -68,9 +68,9 @@ function addUser($email, $password, $first_name, $last_name)
    global $db;
 	
    // insert into users (email, password, first_name, last_name) values ('sa2dt@virginia.edu', 'password', 'Sonia', 'Aggarwal');
-   $query = "INSERT INTO friends VALUES (:email, :password, :first_name, :last_name)";
+   $query = "INSERT INTO users VALUES (:email, :password, :first_name, :last_name)";
    
-   echo "addFriend: $email : $password : $first_name $last_name <br/>";
+   echo "addUser: $email : $password : $first_name $last_name <br/>";
    $statement = $db->prepare($query);
    $statement->bindValue(':email', $email);
    $statement->bindValue(':password', $password);
