@@ -13,14 +13,18 @@ require('list-actions.php');
 ?>
 
 <?php
+//$email = $_POST['email']
+//$workspace_name = $_POST['workspace_name']
+//$group_ID = $_POST['group_ID']
 $msg = '';
 $email = 'up3f@virginia.edu';
 $workspace_name = 'DB';
+$group_ID = "";
 
 if (!empty($_POST['db-btn']))
 {
     if (!empty($_POST['title']))
-      newList($_POST['title'], $_POST['description']);
+      newList($_POST['title'], $_POST['description'], $email, $workspace_name, $group_ID);
     else 
       $msg = "Enter list title to create a list";
 }
@@ -34,10 +38,20 @@ if (!empty($_POST['action']))
       if (!empty($_POST['list_ID']) )
         removeList($_POST['list_ID'], $workspace_name, $email);
    }
+   else if ($_POST['action'] == "Share")
+   {
+      if (!empty($_POST['other_email']) )
+        shareList($_POST['other_email'],$_POST['list_ID']);
+   }
 }
 
 echo $msg;
-$lists = getAllListsRelevant($email, $workspace_name);
+if ($group_ID == ""){
+  $lists = getAllListsRelevantNoGroup($email, $workspace_name);
+} else {
+  $lists = getAllListsRelevantGroup($group_ID);
+}
+
 
 ?>
 
@@ -81,6 +95,7 @@ $lists = getAllListsRelevant($email, $workspace_name);
         <th>Description</th>
         <th>&nbsp;</th>
         <th>&nbsp;</th>
+        <th>&nbsp;</th>
       </tr>      
       <?php foreach ($lists as $list): ?>
       <tr>
@@ -104,7 +119,14 @@ $lists = getAllListsRelevant($email, $workspace_name);
             <input type="submit" value="Remove" name="action" class="btn btn-danger" />      
             <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />
           </form>
-        </td>                                
+        </td>
+        <td>
+          <form action="lists.php" method="post">
+            <input type="submit" value="Share" name="action" class="btn btn-danger" />      
+            <input name="other_email" placeholder="email"/>
+            <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />  
+          </form>
+        </td>                                 
       </tr>
       <?php endforeach; ?>
     </table>

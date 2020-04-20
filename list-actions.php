@@ -36,16 +36,13 @@
 //      execute() actually executes the SQL statement
 
 
-function getAllListsRelevant($workspace_name = "", $email, $group = "")
+function getAllListsRelevantNoGroup($email, $workspace_name)
 {
    global $db;
-   if ($workspace_name != "") {
-      $query = "select * from lists WHERE workspace_name=:workspace_name AND email=:email";
-      $statement = $db->prepare($query);
-      $statement->bindValue(':workspace_name', $workspace_name);
-      $statement->bindValue(':email', $email);
-      
-   }
+   $query = "select * from lists NATURAL JOIN workspace_list_connection WHERE workspace_name=:workspace_name AND email=:email";
+   $statement = $db->prepare($query);
+   $statement->bindValue(':workspace_name', $workspace_name);
+   $statement->bindValue(':email', $email);
    $statement->execute();
 	
    // fetchAll() returns an array for all of the rows in the result set
@@ -57,11 +54,43 @@ function getAllListsRelevant($workspace_name = "", $email, $group = "")
    return $results;
 }
 
+function getAllListsRelevantGroup($group_ID)
+{
+   global $db;
+   $query = "select * from lists, group_list_connection WHERE group_ID=:group_ID";
+   $statement = $db->prepare($query);
+   $statement->bindValue(':group_ID', $group_ID);
+   $statement->execute();
+	
+   // fetchAll() returns an array for all of the rows in the result set
+   $results = $statement->fetchAll();
+	
+   // closes the cursor and frees the connection to the server so other SQL statements may be issued
+   $statement->closecursor();
+	
+   return $results;
+}
+
+function shareList($email, $list_ID)
+{
+   global $db;
+   // put list into default workspace
+   $query = "INSERT INTO workspace_list_connection VALUES (:email, DEFAULT, :list_ID)";
+   
+   echo "shared list number $list_ID with $email <br/>";
+   $statement = $db->prepare($query);
+   $statement->bindValue(':email', $email);
+   $statement->bindValue(':list_ID', $list_ID);
+   $statement->execute();     // if the statement is successfully executed, execute() returns true
+   // false otherwise
+		
+   $statement->closeCursor();
+}
+
 
 function getList_by_list_ID($list_ID)
 {
    global $db;
-   echo "hello";
 	
    $query = "select * from lists where list_ID = :list_ID";
    $statement = $db->prepare($query);
@@ -79,7 +108,7 @@ function getList_by_list_ID($list_ID)
 }
 
 
-function newList($title, $description)
+function newList($title, $description, $email = "", $workspace_name = "", $group_ID = "")
 {
    global $db;
 	
@@ -92,7 +121,39 @@ function newList($title, $description)
    $statement->bindValue(':description', $description);
    $statement->execute();     // if the statement is successfully executed, execute() returns true
    // false otherwise
-		
+   $statement->closeCursor();
+
+   $query = "SHOW TABLE STATUS LIKE 'lists'";
+   $statement = $db->prepare($query);
+   $statement->execute();
+	
+   // fetchAll() returns an array for all of the rows in the result set
+   // fetch() return a row
+   $result = $statement->fetch();
+   $list_ID = $result['Auto_increment'];
+   // closes the cursor and frees the connection to the server so other SQL statements may be issued
+   $statement->closeCursor();
+
+   if ($group_ID == "" && $email == "" && $workspace_name == "") {
+      echo "Not enough parameters entered for newList query";
+   } else if ($group_ID == "") {
+      echo $list_ID;
+      echo $email; 
+      echo $workspace_name;
+      $query = "INSERT INTO workspace_list_connection VALUES (:email, :workspace_name, :list_ID)";
+      $statement = $db->prepare($query);
+      $statement->bindValue(':email', $email);
+      $statement->bindValue(':workspace_name', $workspace_name);
+      $statement->bindValue(':list_ID', (int)$list_ID);
+      $statement->execute();
+   } else {
+      $query = "INSERT INTO group_list_connection VALUES (:list_ID, :group_ID)";
+      $statement = $db->prepare($query);
+      $statement->bindValue(':list_ID', $list_ID);
+      $statement->bindValue(':group_ID', $group_ID);
+      $statement->execute();
+   }
+
    $statement->closeCursor();
 }
 
