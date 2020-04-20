@@ -47,7 +47,7 @@ function getUserInfo_by_email($email)
 {
    global $db;
 	
-   $query = "select * from friends where email = :email";
+   $query = "select * from users where email = :email";
    $statement = $db->prepare($query);
    $statement->bindValue(':email', $email);
    $statement->execute();
