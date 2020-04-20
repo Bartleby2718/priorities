@@ -18,7 +18,7 @@ require('list-actions.php');
 $msg = '';
 $email = 'up3f@virginia.edu';
 $workspace_name = 'DB';
-$group_ID = "";
+$group_ID = '';
 
 if (!empty($_POST['db-btn']))
 {
@@ -73,11 +73,11 @@ if ($group_ID == ""){
 <form action="lists.php" method="post">
   <div class="form-group">
     Title:
-    <input type="text" class="form-control" name="title" value="<?php if (!empty($friend_to_update)) echo $friend_to_update['major'] ?>"/>        
+    <input type="text" class="form-control" name="title" placeholder="Enter a title">        
   </div>  
   <div class="form-group">
     Description:
-    <input type="text" class="form-control" name="description" value="<?php if (!empty($friend_to_update)) echo $friend_to_update['year'] ?>" />        
+    <input type="text" class="form-control" name="description" placeholder="Enter a description [optional]">        
   </div> 
   
   <div class="form-group">

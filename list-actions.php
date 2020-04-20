@@ -1,28 +1,5 @@
 <?php 
 
-// function create_list()
-// {
-//    global $db;
-//    $query = "CREATE TABLE IF NOT EXISTS list (
-//              name VARCHAR(30) PRIMARY KEY,
-//              major VARCHAR(20),
-//              year INT(1) )";
-	
-//    $statement = $db->prepare($query);
-//    $statement->execute();
-//    $statement->closeCursor();
-// }
-
-// function drop_list()
-// {
-//    global $db;
-//    $query = "DROP TABLE friends";
-	
-//    $statement = $db->prepare($query);
-//    $statement->execute();
-//    $statement->closeCursor();
-// }
-
 // Prepared statement (or parameterized statement) happens in 2 phases:
 //   1. prepare() sends a template to the server, the server analyzes the syntax
 //                and initialize the internal structure.
@@ -57,7 +34,7 @@ function getAllListsRelevantNoGroup($email, $workspace_name)
 function getAllListsRelevantGroup($group_ID)
 {
    global $db;
-   $query = "select * from lists, group_list_connection WHERE group_ID=:group_ID";
+   $query = "select * from lists NATURAL JOIN group_list_connection WHERE group_ID=:group_ID";
    $statement = $db->prepare($query);
    $statement->bindValue(':group_ID', $group_ID);
    $statement->execute();
@@ -121,7 +98,7 @@ function newList($title, $description, $email = "", $workspace_name = "", $group
    $list_ID = $result['Auto_increment'];
 
    // insert into friends (name, major, year) values ('someone', 'CS', 4);
-   $query = "INSERT INTO lists VALUES (DEFAULT, :title, :description)";
+   $query = "INSERT INTO lists VALUES (DEFAULT, :description, :title)";
    
    echo "newList: $title : $description <br/>";
    $statement = $db->prepare($query);
