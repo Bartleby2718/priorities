@@ -1,0 +1,122 @@
+<?php 
+
+function create_list()
+{
+   global $db;
+   $query = "CREATE TABLE IF NOT EXISTS friends (
+             name VARCHAR(30) PRIMARY KEY,
+             major VARCHAR(20),
+             year INT(1) )";
+	
+   $statement = $db->prepare($query);
+   $statement->execute();
+   $statement->closeCursor();
+}
+
+function drop_list()
+{
+   global $db;
+   $query = "DROP TABLE friends";
+	
+   $statement = $db->prepare($query);
+   $statement->execute();
+   $statement->closeCursor();
+}
+
+// Prepared statement (or parameterized statement) happens in 2 phases:
+//   1. prepare() sends a template to the server, the server analyzes the syntax
+//                and initialize the internal structure.
+//   2. bind value (if applicable) and execute
+//      bindValue() fills in the template (~fill in the blanks).
+//                For example, bindValue(':name', $name);
+//                the server will locate the missing part signified by a colon
+//                (in this example, :name) in the template
+//                and replaces it with the actual value from $name.
+//                Thus, be sure to match the name; a mismatch is ignored.
+//      execute() actually executes the SQL statement
+
+
+function getAllLists()
+{
+   global $db;
+   $query = "select * from lists";
+   $statement = $db->prepare($query);
+   $statement->execute();
+	
+   // fetchAll() returns an array for all of the rows in the result set
+   $results = $statement->fetchAll();
+	
+   // closes the cursor and frees the connection to the server so other SQL statements may be issued
+   $statement->closecursor();
+	
+   return $results;
+}
+
+
+function getFriendInfo_by_name($name)
+{
+   global $db;
+	
+   $query = "select * from friends where name = :name";
+   $statement = $db->prepare($query);
+   $statement->bindValue(':name', $name);
+   $statement->execute();
+	
+   // fetchAll() returns an array for all of the rows in the result set
+   // fetch() return a row
+   $results = $statement->fetch();
+	
+   // closes the cursor and frees the connection to the server so other SQL statements may be issued
+   $statement->closecursor();
+	
+   return $results;
+}
+
+
+function addFriend($name, $major, $year)
+{
+   global $db;
+	
+   // insert into friends (name, major, year) values ('someone', 'CS', 4);
+   $query = "INSERT INTO friends VALUES (:name, :major, :year)";
+   
+   echo "addFriend: $name : $major : $year <br/>";
+   $statement = $db->prepare($query);
+   $statement->bindValue(':name', $name);
+   $statement->bindValue(':major', $major);
+   $statement->bindValue(':year', $year);
+   $statement->execute();     // if the statement is successfully executed, execute() returns true
+   // false otherwise
+		
+   $statement->closeCursor();
+}
+
+
+function updateFriendInfo($name, $major, $year)
+{
+   global $db;
+	
+   // update friends set major="EE", year=2 where name="someoneelse"
+   $query = "UPDATE friends SET major=:major, year=:year WHERE name=:name";
+   $statement = $db->prepare($query);
+   $statement->bindValue(':name', $name);
+   $statement->bindValue(':major', $major);
+   $statement->bindValue(':year', $year);
+   $statement->execute();
+   $statement->closeCursor();
+}
+
+
+function deleteFriend($name)
+{
+   global $db;
+	
+   $query = "DELETE FROM friends WHERE name=:name";
+   $statement = $db->prepare($query);
+   $statement->bindValue(':name', $name);
+   $statement->execute();
+   $statement->closeCursor();
+}
+?>
+
+

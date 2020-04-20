@@ -3,8 +3,8 @@
 /******************************/
 // connecting to DB on XAMPP (local)
 
-$username = 'jakemoses';
-$password = 'moses32jake';
+$username = 'root';
+$password = '';
 $host = 'localhost:3306';
 $dbname = 'priorities';
 
@@ -17,7 +17,7 @@ $dsn = "mysql:host=$host;dbname=$dbname";
 try 
 {
    $db = new PDO($dsn, $username, $password);   
-   // echo "<p>You are connected to the database</p>";
+   echo "<p>You are connected to the database</p>";
 }
 catch (PDOException $e)     // handle a PDO exception (errors thrown by the PDO library)
 {
