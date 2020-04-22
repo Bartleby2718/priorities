@@ -135,21 +135,6 @@ function newList($title, $description, $email = "", $workspace_name = "", $group
 }
 
 
-function updateFriendInfo($name, $major, $year)
-{
-   global $db;
-	
-   // update friends set major="EE", year=2 where name="someoneelse"
-   $query = "UPDATE friends SET major=:major, year=:year WHERE name=:name";
-   $statement = $db->prepare($query);
-   $statement->bindValue(':name', $name);
-   $statement->bindValue(':major', $major);
-   $statement->bindValue(':year', $year);
-   $statement->execute();
-   $statement->closeCursor();
-}
-
-
 function removeList($list_ID, $workspace_name, $email)
 {
    global $db;
