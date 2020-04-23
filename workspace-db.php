@@ -1,6 +1,6 @@
 <?php 
 
-function create_table()
+function workspace_create_table()
 {
    global $db;
    $query = "CREATE TABLE IF NOT EXISTS workspace (
@@ -14,7 +14,7 @@ function create_table()
 }
 
 
-function drop_table()
+function workspace_drop_table()
 {
    global $db;
    $query = "DROP TABLE workspace";
@@ -69,7 +69,7 @@ function addWorkspace($email, $workspace_name, $description)
    // insert into users (email, password, first_name, last_name) values ('sa2dt@virginia.edu', 'password', 'Sonia', 'Aggarwal');
    $query = "INSERT INTO workspace VALUES (:email, :workspace_name, :description)";
    
-   echo "addFriend: $email : $workspace_name : $description <br/>";
+   echo "addWorkspace: $email : $workspace_name : $description <br/>";
    $statement = $db->prepare($query);
    $statement->bindValue(':email', $email);
    $statement->bindValue(':password', $workspace_name);
