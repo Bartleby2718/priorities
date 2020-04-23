@@ -48,6 +48,24 @@ function getAllListsRelevantGroup($group_ID)
    return $results;
 }
 
+function getAllGroups($email, $workspace_name)
+{
+   global $db;
+   $query = "select * from groups WHERE email=:email AND workspace_name=:workspace_name";
+   $statement = $db->prepare($query);
+   $statement->bindValue(':email', $email);
+   $statement->bindValue(':workspace_name', $workspace_name);
+   $statement->execute();
+	
+   // fetchAll() returns an array for all of the rows in the result set
+   $results = $statement->fetchAll();
+	
+   // closes the cursor and frees the connection to the server so other SQL statements may be issued
+   $statement->closecursor();
+	
+   return $results;
+}
+
 function shareList($email, $list_ID)
 {
    global $db;
@@ -83,9 +101,42 @@ function getList_by_list_ID($list_ID)
 	
    return $results;
 }
+function newGroup($name, $description, $email = "", $workspace_name = "")
+{
+   global $db;
+   $query = "SHOW TABLE STATUS LIKE 'groups'";
+   $statement = $db->prepare($query);
+   $statement->execute();
+	
+   // fetchAll() returns an array for all of the rows in the result set
+   // fetch() return a row
+   $result = $statement->fetch();
+   $group_ID = $result['Auto_increment'];
 
+   // insert into friends (name, major, year) values ('someone', 'CS', 4);
+   $query = "INSERT INTO groups VALUES (DEFAULT, :email, :workspace_name, :name, :description)";
+   
+   echo "newGroup: $name : $description <br/>";
+   $statement = $db->prepare($query);
+   $statement->bindValue(':name', $name);
+   $statement->bindValue(':description', $description);
+   $statement->bindValue(':email', $email);
+   $statement->bindValue(':workspace_name', $workspace_name);
+   $statement->execute();     // if the statement is successfully executed, execute() returns true
+   // false otherwise
+   $statement->closeCursor();
 
-function newList($title, $description, $email = "", $workspace_name = "", $group_ID = "")
+   // closes the cursor and frees the connection to the server so other SQL statements may be issued
+   $statement->closeCursor();
+
+   if ($email == "" && $workspace_name == "") {
+      echo "Not enough parameters entered for newGroup query";
+   }
+
+   $statement->closeCursor();
+}
+
+function newListNoGroup($title, $description, $email = "", $workspace_name = "")
 {
    global $db;
    $query = "SHOW TABLE STATUS LIKE 'lists'";
@@ -111,9 +162,9 @@ function newList($title, $description, $email = "", $workspace_name = "", $group
    // closes the cursor and frees the connection to the server so other SQL statements may be issued
    $statement->closeCursor();
 
-   if ($group_ID == "" && $email == "" && $workspace_name == "") {
+   if ($email == "" && $workspace_name == "") {
       echo "Not enough parameters entered for newList query";
-   } else if ($group_ID == "") {
+   } else  {
       echo $list_ID;
       echo $email; 
       echo $workspace_name;
@@ -123,6 +174,39 @@ function newList($title, $description, $email = "", $workspace_name = "", $group
       $statement->bindValue(':workspace_name', $workspace_name);
       $statement->bindValue(':list_ID', (int)$list_ID);
       $statement->execute();
+   }
+
+   $statement->closeCursor();
+}
+
+function newListGroup($title, $description, $group_ID = "")
+{
+   global $db;
+   $query = "SHOW TABLE STATUS LIKE 'lists'";
+   $statement = $db->prepare($query);
+   $statement->execute();
+	
+   // fetchAll() returns an array for all of the rows in the result set
+   // fetch() return a row
+   $result = $statement->fetch();
+   $list_ID = $result['Auto_increment'];
+
+   // insert into friends (name, major, year) values ('someone', 'CS', 4);
+   $query = "INSERT INTO lists VALUES (DEFAULT, :description, :title)";
+   
+   echo "newList: $title : $description <br/>";
+   $statement = $db->prepare($query);
+   $statement->bindValue(':title', $title);
+   $statement->bindValue(':description', $description);
+   $statement->execute();     // if the statement is successfully executed, execute() returns true
+   // false otherwise
+   $statement->closeCursor();
+
+   // closes the cursor and frees the connection to the server so other SQL statements may be issued
+   $statement->closeCursor();
+
+   if ($group_ID == "" ) {
+      echo "Not enough parameters entered for newList query";
    } else {
       $query = "INSERT INTO group_list_connection VALUES (:list_ID, :group_ID)";
       $statement = $db->prepare($query);

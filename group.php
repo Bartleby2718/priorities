@@ -1,7 +1,7 @@
 <?php
 // include('connectdb.php');
 require('connectdb.php');
-require('list-actions.php');
+require('workspace-actions.php');
 
 // steps: 
 // 1. establish a connection (configure: load driver, specify host, specify username/password)
@@ -16,8 +16,8 @@ require('list-actions.php');
 //$workspace_name = $_POST['workspace_name']
 //$group_ID = $_POST['group_ID']
 $msg = '';
-$email = 'up3f@virginia.edu';
-$workspace_name = 'DB';
+// $email = 'up3f@virginia.edu';
+// $workspace_name = 'DB';
 $group_ID = '';
 
 if (!empty($_POST['db-btn']))
@@ -45,11 +45,7 @@ if (!empty($_POST['action']))
 }
 
 echo $msg;
-if ($group_ID == ""){
-  $lists = getAllListsRelevantNoGroup($email, $workspace_name);
-} else {
-  $lists = getAllListsRelevantGroup($group_ID);
-}
+$lists = getAllListsRelevantGroup($group_ID);
 
 
 ?>
@@ -69,8 +65,68 @@ if ($group_ID == ""){
 <body>
 <div class="container">
 <br/>
+<h1>Groups</h1>
+<form action="workspace.php" method="post">
+  <div class="form-group">
+    Title:
+    <input type="text" class="form-control" name="title" placeholder="Enter a title">        
+  </div>  
+  <div class="form-group">
+    Description:
+    <input type="text" class="form-control" name="description" placeholder="Enter a description [optional]">        
+  </div> 
+  
+  <div class="form-group">
+    <input type="submit" value="Create List" class="btn btn-dark" name="db-btn" title="Create List"/>
+    <small class="text-danger"><?php echo $msg ?></small>
+  </div>  
+</form>
+<h4>Lists In This Workspace</h4>
+    <table class="table table-striped table-bordered">
+      <tr>
+        <th>List ID</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+      </tr>      
+      <?php foreach ($lists as $list): ?>
+      <tr>
+        <td>
+          <?php echo $list['list_ID']; ?> 
+        </td>
+        <td>
+          <?php echo $list['title']; ?> 
+        </td>        
+        <td>
+          <?php echo $list['description']; ?> 
+        </td>                
+        <td>
+          <form action="workspace.php" method="post">
+            <input type="submit" value="View" name="action" class="btn btn-primary" />             
+            <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />
+          </form> 
+        </td>                        
+        <td>
+          <form action="workspace.php" method="post">
+            <input type="submit" value="Remove" name="action" class="btn btn-danger" />      
+            <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />
+          </form>
+        </td>
+        <td>
+          <form action="workspace.php" method="post">
+            <input type="submit" value="Share" name="action" class="btn btn-danger" />      
+            <input name="other_email" placeholder="email"/>
+            <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />  
+          </form>
+        </td>                                 
+      </tr>
+      <?php endforeach; ?>
+    </table>
+<br/>
 <h1>Lists</h1>
-<form action="lists.php" method="post">
+<form action="workspace.php" method="post">
   <div class="form-group">
     Title:
     <input type="text" class="form-control" name="title" placeholder="Enter a title">        
@@ -108,19 +164,19 @@ if ($group_ID == ""){
           <?php echo $list['description']; ?> 
         </td>                
         <td>
-          <form action="lists.php" method="post">
+          <form action="workspace.php" method="post">
             <input type="submit" value="View" name="action" class="btn btn-primary" />             
             <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />
           </form> 
         </td>                        
         <td>
-          <form action="lists.php" method="post">
+          <form action="workspace.php" method="post">
             <input type="submit" value="Remove" name="action" class="btn btn-danger" />      
             <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />
           </form>
         </td>
         <td>
-          <form action="lists.php" method="post">
+          <form action="workspace.php" method="post">
             <input type="submit" value="Share" name="action" class="btn btn-danger" />      
             <input name="other_email" placeholder="email"/>
             <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />  
