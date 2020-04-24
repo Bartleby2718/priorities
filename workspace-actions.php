@@ -199,7 +199,6 @@ function newListGroup($title, $description, $group_ID = "")
    $statement->closeCursor();
 }
 
-
 function removeListWorkspace($list_ID, $workspace_name, $email)
 {
    global $db;
