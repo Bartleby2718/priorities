@@ -266,6 +266,46 @@ function removeGroup($group_ID, $workspace_name, $email)
    $statement->bindValue(':workspace_name', $workspace_name); //temporary
    $statement->bindValue(':email', $email); //temporary
    $statement->execute();
+   
+   $statement->closeCursor();
+}
+
+function moveListIntoGroup($list_ID, $group_ID, $workspace_name, $email)
+{
+   global $db;
+	
+   $query = "DELETE FROM workspace_list_connection WHERE list_ID=:list_ID AND workspace_name=:workspace_name AND email=:email";
+   $statement = $db->prepare($query);
+   $statement->bindValue(':list_ID', $list_ID);
+   $statement->bindValue(':workspace_name', $workspace_name); //temporary
+   $statement->bindValue(':email', $email); //temporary
+   $statement->execute();
+
+   $query = "INSERT INTO group_list_connection VALUES (:list_ID, :group_ID)";
+   $statement = $db->prepare($query);
+   $statement->bindValue(':list_ID', $list_ID);
+   $statement->bindValue(':group_ID', $group_ID);
+   $statement->execute();
+
+   $statement->closeCursor();
+}
+
+function MoveFromGrouptoList($list_ID, $group_ID, $workspace_name, $email)
+{
+   global $db;
+	
+   $query = "DELETE FROM group_list_connection WHERE list_ID=:list_ID AND group_ID=:group_ID";
+   $statement = $db->prepare($query);
+   $statement->bindValue(':list_ID', $list_ID);
+   $statement->bindValue(':group_ID', $group_ID); //temporary
+   $statement->execute();
+
+   $query = "INSERT INTO workspace_list_connection VALUES (:email, :workspace_name, :list_ID)";
+   $statement = $db->prepare($query);
+   $statement->bindValue(':email', $email);
+   $statement->bindValue(':workspace_name', $workspace_name);
+   $statement->bindValue(':list_ID', (int)$list_ID);
+   $statement->execute();
 
    $statement->closeCursor();
 }

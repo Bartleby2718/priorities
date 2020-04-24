@@ -19,6 +19,9 @@ $msg = '';
 // $email = $_GET['email'];
 // $workspace_name = $_GET['workspace_name'];
 $group_ID = $_COOKIE['group_ID'];
+$email = $_COOKIE['email'];
+$workspace_name = $_COOKIE['workspace_name'];
+echo $group_ID;
 
 if (!empty($_POST['db-btn']))
 {
@@ -34,11 +37,23 @@ if (!empty($_POST['action']))
    {
       if (!empty($_POST['list_ID']) )
         removeListGroup($_POST['list_ID'], $group_ID);
+   }else if ($_POST['action'] == "View List")
+   {
+      if (!empty($_POST['list_ID']) ) {
+        setcookie("list_ID",$_POST['list_ID']);
+        header('Location: /cs4750/priorities/items.php');
+      }   
    }
    else if ($_POST['action'] == "Share")
    {
-      if (!empty($_POST['other_email']) )
+      if (!empty($_POST['other_email']) ) {
         shareList($_POST['other_email'],$_POST['list_ID']);
+      }
+   } else if ($_POST['action'] == "Move Back to Workspace")
+   {
+      if (!empty($_POST['list_ID']) ) {
+        MoveFromGrouptoList($_POST['list_ID'], $group_ID, $workspace_name, $email);
+      }
    }
 }
 
@@ -89,6 +104,7 @@ $lists = getAllListsRelevantGroup($group_ID);
         <th>&nbsp;</th>
         <th>&nbsp;</th>
         <th>&nbsp;</th>
+        <th>&nbsp;</th>
       </tr>      
       <?php foreach ($lists as $list): ?>
       <tr>
@@ -102,9 +118,10 @@ $lists = getAllListsRelevantGroup($group_ID);
           <?php echo $list['description']; ?> 
         </td>                
         <td>
-        <button class="btn btn-primary" >
-            <a href="<?php echo 'items.php'; ?>" onClick="<?php setcookie('list_ID',$_COOKIE['list_ID']=$list['list_ID']);?>" style="color:white;">View List</a> 
-            </button> 
+          <form action="workspace.php" method="post">
+            <input type="submit" value="View List" name="action" class="btn btn-primary" />      
+            <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />  
+          </form>
         </td>                        
         <td>
           <form action="group.php" method="post">
@@ -118,7 +135,13 @@ $lists = getAllListsRelevantGroup($group_ID);
             <input name="other_email" placeholder="email"/>
             <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />  
           </form>
-        </td>                                 
+        </td>
+        <td>
+          <form action="group.php" method="post">
+            <input type="submit" value="Move Back to Workspace" name="action" class="btn btn-danger" />      
+            <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />  
+          </form>
+        </td>                                          
       </tr>
       <?php endforeach; ?>
     </table>
