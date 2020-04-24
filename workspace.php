@@ -50,11 +50,29 @@ if (!empty($_POST['action']))
       if (!empty($_POST['other_email']) ) {
         shareList($_POST['other_email'],$_POST['list_ID']);
       }   
-   } else if ($_POST['action'] == "Remove Group") {
+   } else if ($_POST['action'] == "View List")
+   {
+      if (!empty($_POST['list_ID']) ) {
+        setcookie("list_ID",$_POST['list_ID']);
+        header('Location: /cs4750/priorities/items.php');
+      }   
+   }else if ($_POST['action'] == "View Group")
+   {
+      if (!empty($_POST['group_ID']) ) {
+        setcookie("group_ID",$_POST['group_ID']);
+        header('Location: /cs4750/priorities/group.php');
+      }   
+   }else if ($_POST['action'] == "Remove Group") {
      if (!empty($_POST['group_ID']) ){
        removeGroup($_POST['group_ID'], $workspace_name, $email);
       }
   }
+  else if ($_POST['action'] == "Move Into Group") {
+    if (!empty($_POST['group_select']) & !empty($_POST['list_ID']) ){
+      echo "Moving ".$_POST['list_ID']." into group: ".$_POST['group_select'];
+      moveListIntoGroup($_POST['list_ID'], $_POST['group_select'], $workspace_name, $email);
+     }
+ }
 }
 
 echo $msg;
@@ -103,7 +121,7 @@ $groups = getAllGroups($email, $workspace_name);
     <table class="table table-striped table-bordered">
       <tr>
         <th>Group ID</th>
-        <th>Title</th>
+        <th>Name</th>
         <th>Description</th>
         <th>&nbsp;</th>
         <th>&nbsp;</th>
@@ -120,9 +138,10 @@ $groups = getAllGroups($email, $workspace_name);
           <?php echo $group['description']; ?> 
         </td>                
         <td>
-            <button class="btn btn-primary"  >
-            <a href="<?php echo 'group.php'; ?>" onClick="<?php setcookie('group_ID',$_COOKIE['group_id']=$group['group_ID']);?>" style="color:white;">View Group</a> 
-            </button>            
+        <form action="workspace.php" method="post">
+            <input type="submit" value="View Group" name="action" class="btn btn-primary" />      
+            <input type="hidden" name="group_ID" value="<?php echo $group['group_ID'] ?>" />  
+          </form>         
         </td>                        
         <td>
           <form action="workspace.php" method="post">
@@ -160,6 +179,8 @@ $groups = getAllGroups($email, $workspace_name);
         <th>&nbsp;</th>
         <th>&nbsp;</th>
         <th>&nbsp;</th>
+        <th>&nbsp;</th>
+        <!-- <th>&nbsp;</th> -->
       </tr>      
       <?php foreach ($lists as $list): ?>
       <tr>
@@ -173,9 +194,10 @@ $groups = getAllGroups($email, $workspace_name);
           <?php echo $list['description']; ?> 
         </td>                
         <td>
-          <button class="btn btn-primary" >
-            <a href="<?php echo 'items.php'; ?>" onClick="<?php setcookie('list_ID',$_COOKIE['list_ID']=$list['list_ID']);?>" style="color:white;">View List</a> 
-            </button> 
+          <form action="workspace.php" method="post">
+            <input type="submit" value="View List" name="action" class="btn btn-primary" />      
+            <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />  
+          </form>
         </td>                        
         <td>
           <form action="workspace.php" method="post">
@@ -185,11 +207,22 @@ $groups = getAllGroups($email, $workspace_name);
         </td>
         <td>
           <form action="workspace.php" method="post">
-            <input type="submit" value="Share List" name="action" class="btn btn-danger" />      
+            <input type="submit" value="Share List" name="action" class="btn btn-info" />      
             <input name="other_email" placeholder="email"/>
             <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />  
           </form>
-        </td>                                 
+        </td>
+        <td>
+          <form action="workspace.php" method="post">
+            <input type="submit" value="Move Into Group" name="action" class="btn btn-info" />      
+            <select name="group_select">
+              <?php foreach ($groups as $group):?>
+                <option value="<?php echo $group['group_ID']?>"><?php echo $group['group_name']?></option>
+              <?php endforeach; ?>
+            </select>
+            <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />  
+          </form>
+        </td>                         
       </tr>
       <?php endforeach; ?>
     </table>
