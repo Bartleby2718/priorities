@@ -37,12 +37,10 @@ if (!empty($_POST['create-list']))
 
 if (!empty($_POST['action']))
 {
-   if ($_POST['action'] == "View List") {
-    $list_to_view = getList_by_list_ID($_POST['list_ID']);
-   } else if ($_POST['action'] == "Remove List")
+    if ($_POST['action'] == "Remove List")
    {
       if (!empty($_POST['list_ID']) ) {
-        removeList($_POST['list_ID'], $workspace_name, $email);
+        removeListWorkspace($_POST['list_ID'], $workspace_name, $email);
       }
    }
    else if ($_POST['action'] == "Share List")
@@ -50,8 +48,6 @@ if (!empty($_POST['action']))
       if (!empty($_POST['other_email']) ) {
         shareList($_POST['other_email'],$_POST['list_ID']);
       }   
-   } else if ($_POST['action'] == "View Group") {
-      $group_to_view = getList_by_list_ID($_POST['group_ID']);
    } else if ($_POST['action'] == "Remove Group") {
      if (!empty($_POST['group_ID']) ){
        removeGroup($_POST['group_ID'], $workspace_name, $email);
@@ -128,10 +124,9 @@ $groups = getAllGroups($email, $workspace_name);
           <?php echo $group['description']; ?> 
         </td>                
         <td>
-          <form action="workspace.php" method="post">
-            <input type="submit" value="View Group" name="action" class="btn btn-primary" />             
-            <input type="hidden" name="group_ID" value="<?php echo $group['group_ID'] ?>" />
-          </form> 
+            <button class="btn btn-primary" >
+            <a href="<?php echo 'group.php?group_id='.$group['group_ID'].'&workspace_name='.$workspace_name."&email=".$email; ?>" style="color:white;">View Group</a> 
+            </button>            
         </td>                        
         <td>
           <form action="workspace.php" method="post">

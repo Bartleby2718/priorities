@@ -82,25 +82,6 @@ function shareList($email, $list_ID)
    $statement->closeCursor();
 }
 
-
-function getList_by_list_ID($list_ID)
-{
-   global $db;
-	
-   $query = "select * from lists where list_ID = :list_ID";
-   $statement = $db->prepare($query);
-   $statement->bindValue(':list_ID', $list_ID);
-   $statement->execute();
-	
-   // fetchAll() returns an array for all of the rows in the result set
-   // fetch() return a row
-   $results = $statement->fetch();
-	
-   // closes the cursor and frees the connection to the server so other SQL statements may be issued
-   $statement->closecursor();
-	
-   return $results;
-}
 function newGroup($name, $description, $email = "", $workspace_name = "")
 {
    global $db;
@@ -219,7 +200,7 @@ function newListGroup($title, $description, $group_ID = "")
 }
 
 
-function removeList($list_ID, $workspace_name, $email)
+function removeListWorkspace($list_ID, $workspace_name, $email)
 {
    global $db;
 	
@@ -244,10 +225,35 @@ function removeList($list_ID, $workspace_name, $email)
       $statement->bindValue(':list_ID', $list_ID);
       $statement->execute();
    }
-
-
    $statement->closeCursor();
 
+}
+
+function removeListGroup($list_ID, $group_ID)
+{
+   global $db;
+	
+   $query = "DELETE FROM group_list_connection WHERE list_ID=:list_ID AND group_ID=:group_ID";
+   $statement = $db->prepare($query);
+   $statement->bindValue(':list_ID', $list_ID);
+   $statement->bindValue(':workspace_name', $group_ID); //temporary
+   $statement->execute();
+
+   $query = "select * from lists, group_list_connection where list_ID = :list_ID";
+   $statement = $db->prepare($query);
+   $statement->bindValue(':list_ID', $list_ID);
+   $statement->execute();
+	
+   // fetchAll() returns an array for all of the rows in the result set
+   // fetch() return a row
+   $results = $statement->fetch();
+   if (empty($results)) {
+      $query = "DELETE FROM lists WHERE list_ID=:list_ID";
+      $statement = $db->prepare($query);
+      $statement->bindValue(':list_ID', $list_ID);
+      $statement->execute();
+   }
+   $statement->closeCursor();
 
 }
 
