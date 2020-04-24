@@ -16,12 +16,12 @@ echo 'Welcome to item page!';
 require('item-db.php');
 
 // Get information from cookie
-$user_email = array_key_exists('user_email', $_COOKIE) ? $_COOKIE['user_email'] : 'user_email not found in cookie';
-$workspace = array_key_exists('workspace', $_COOKIE) ? $_COOKIE['workspace'] : 'workspace not found in cookie';
+$email = array_key_exists('email', $_COOKIE) ? $_COOKIE['email'] : 'email not found in cookie';
+$workspace_name = array_key_exists('workspace_name', $_COOKIE) ? $_COOKIE['workspace_name'] : 'workspace_name not found in cookie';
 $list_ID = array_key_exists('list_ID', $_COOKIE) ? $_COOKIE['list_ID'] : 'list_ID not found in cookie';
 
-echo 'email in the cookie: ', $user_email, '<br>';
-echo 'workspace in the cookie: ', $workspace, '<br>';
+echo 'email in the cookie: ', $email, '<br>';
+echo 'workspace_name in the cookie: ', $workspace_name, '<br>';
 echo 'list_ID in the cookie: ', $list_ID, '<br>';
 
 echo '<br>';

@@ -102,10 +102,9 @@ $lists = getAllListsRelevantGroup($group_ID);
           <?php echo $list['description']; ?> 
         </td>                
         <td>
-          <form action="group.php" method="post">
-            <input type="submit" value="View" name="action" class="btn btn-primary" />             
-            <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />
-          </form> 
+        <button class="btn btn-primary" >
+            <a href="<?php echo 'items.php'; ?>" onClick="<?php setcookie('list_ID',$_COOKIE['list_ID']=$list['list_ID']);?>" style="color:white;">View List</a> 
+            </button> 
         </td>                        
         <td>
           <form action="group.php" method="post">

@@ -18,6 +18,8 @@ require('workspace-actions.php');
 $msg = '';
 $email = 'up3f@virginia.edu';
 $workspace_name = 'DB';
+setcookie('email',$_COOKIE['email']=$email);
+setcookie('workspace_name',$_COOKIE['workspace_name']=$workspace_name);
 
 if (!empty($_POST['create-list']))
 {
@@ -171,10 +173,9 @@ $groups = getAllGroups($email, $workspace_name);
           <?php echo $list['description']; ?> 
         </td>                
         <td>
-          <form action="workspace.php" method="post">
-            <input type="submit" value="View List" name="action" class="btn btn-primary" />             
-            <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />
-          </form> 
+          <button class="btn btn-primary" >
+            <a href="<?php echo 'items.php'; ?>" onClick="<?php setcookie('list_ID',$_COOKIE['list_ID']=$list['list_ID']);?>" style="color:white;">View List</a> 
+            </button> 
         </td>                        
         <td>
           <form action="workspace.php" method="post">

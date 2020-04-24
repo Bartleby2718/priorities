@@ -13,5 +13,5 @@ $date_time_due = array_key_exists('date_time_due', $_POST) ? $_POST['date_time_d
 updateItem($item_ID, $description, $date_time_due);
 
 // Redirect to items page
-header("Location: /cs4750/items.php");
+header("Location: /cs4750/priorities/items.php");
 die();
