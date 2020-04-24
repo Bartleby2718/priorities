@@ -80,7 +80,7 @@ $lists = getAllListsRelevantGroup($group_ID);
   </div>  
 </form>
 
-<h4>Lists In This Workspace</h4>
+<h4>Lists In This Group</h4>
     <table class="table table-striped table-bordered">
       <tr>
         <th>List ID</th>

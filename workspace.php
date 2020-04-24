@@ -119,7 +119,7 @@ $groups = getAllGroups($email, $workspace_name);
         </td>                
         <td>
             <button class="btn btn-primary"  >
-            <a href="<?php echo 'group.php'; ?>" onClick="<?php setcookie('group_ID',$_COOKIE['group_id']=$group['group_ID']);?>">View Group</a> 
+            <a href="<?php echo 'group.php'; ?>" onClick="<?php setcookie('group_ID',$_COOKIE['group_id']=$group['group_ID']);?>" style="color:white;">View Group</a> 
             </button>            
         </td>                        
         <td>
