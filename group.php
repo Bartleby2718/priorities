@@ -16,9 +16,9 @@ require('workspace-actions.php');
 //$workspace_name = $_POST['workspace_name']
 //$group_ID = $_POST['group_ID']
 $msg = '';
-$email = $_GET['email'];
-$workspace_name = $_GET['workspace_name'];
-$group_ID = $_GET['group_id'];
+// $email = $_GET['email'];
+// $workspace_name = $_GET['workspace_name'];
+$group_ID = $_COOKIE['group_ID'];
 
 if (!empty($_POST['db-btn']))
 {

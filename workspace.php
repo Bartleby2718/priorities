@@ -52,12 +52,7 @@ if (!empty($_POST['action']))
      if (!empty($_POST['group_ID']) ){
        removeGroup($_POST['group_ID'], $workspace_name, $email);
       }
-  } else if ($_POST['action'] == "Share Group") {
-    if (!empty($_POST['other_email']) ) {
-      shareGroup($_POST['other_email'],$_POST['group_ID']);
-     }
-}
-   
+  }
 }
 
 echo $msg;
@@ -110,7 +105,6 @@ $groups = getAllGroups($email, $workspace_name);
         <th>Description</th>
         <th>&nbsp;</th>
         <th>&nbsp;</th>
-        <th>&nbsp;</th>
       </tr>      
       <?php foreach ($groups as $group): ?>
       <tr>
@@ -124,8 +118,8 @@ $groups = getAllGroups($email, $workspace_name);
           <?php echo $group['description']; ?> 
         </td>                
         <td>
-            <button class="btn btn-primary" >
-            <a href="<?php echo 'group.php?group_id='.$group['group_ID'].'&workspace_name='.$workspace_name."&email=".$email; ?>" style="color:white;">View Group</a> 
+            <button class="btn btn-primary"  >
+            <a href="<?php echo 'group.php'; ?>" onClick="<?php setcookie('group_ID',$_COOKIE['group_id']=$group['group_ID']);?>">View Group</a> 
             </button>            
         </td>                        
         <td>
@@ -133,14 +127,7 @@ $groups = getAllGroups($email, $workspace_name);
             <input type="submit" value="Remove Group" name="action" class="btn btn-danger" />      
             <input type="hidden" name="group_ID" value="<?php echo $group['group_ID'] ?>" />
           </form>
-        </td>
-        <td>
-          <form action="workspace.php" method="post">
-            <input type="submit" value="Share Group" name="action" class="btn btn-danger" />      
-            <input name="other_email" placeholder="email"/>
-            <input type="hidden" name="group_ID" value="<?php echo $group['group_ID'] ?>" />  
-          </form>
-        </td>                                 
+        </td>                               
       </tr>
       <?php endforeach; ?>
     </table>
