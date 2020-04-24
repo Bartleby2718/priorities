@@ -19,36 +19,49 @@ $msg = '';
 $email = 'up3f@virginia.edu';
 $workspace_name = 'DB';
 
-if (!empty($_POST['db-btn']))
+if (!empty($_POST['create-list']))
 {
-  if ($_POST['name'] == "Create List") {
-    if (!empty($_POST['title']))
-      newListNoGroup($_POST['title'], $_POST['description'], $email, $workspace_name);
-    else 
-      $msg = "Enter list title to create a list";
-  } else if ($_POST['name'] == "Create List") {
+  if (!empty($_POST['title'])) {
+    newListNoGroup($_POST['title'], $_POST['description'], $email, $workspace_name);
+  }
+  else {
+    $msg = "Enter list title to create a list";
+  }
+}  else if (!empty($_POST['create-group'])) {
   if (!empty($_POST['name']))
     newGroup($_POST['name'], $_POST['description'], $email, $workspace_name);
   else 
-    $msg = "Enter list title to create a list";
-  }
+    $msg = "Enter name title to create a group";
 }
     
 
 if (!empty($_POST['action']))
 {
-   if ($_POST['action'] == "View")
-      $list_to_view = getList_by_list_ID($_POST['list_ID']);
-   else if ($_POST['action'] == "Remove")
+   if ($_POST['action'] == "View List") {
+    $list_to_view = getList_by_list_ID($_POST['list_ID']);
+   } else if ($_POST['action'] == "Remove List")
    {
-      if (!empty($_POST['list_ID']) )
+      if (!empty($_POST['list_ID']) ) {
         removeList($_POST['list_ID'], $workspace_name, $email);
+      }
    }
-   else if ($_POST['action'] == "Share")
+   else if ($_POST['action'] == "Share List")
    {
-      if (!empty($_POST['other_email']) )
+      if (!empty($_POST['other_email']) ) {
         shareList($_POST['other_email'],$_POST['list_ID']);
-   }
+      }   
+   } else if ($_POST['action'] == "View Group") {
+      $group_to_view = getList_by_list_ID($_POST['group_ID']);
+   } else if ($_POST['action'] == "Remove Group") {
+     if (!empty($_POST['group_ID']) ){
+       removeGroup($_POST['group_ID'], $workspace_name, $email);
+      }
+  } else if ($_POST['action'] == "Share Group") {
+    if (!empty($_POST['other_email']) ) {
+      shareGroup($_POST['other_email'],$_POST['group_ID']);
+     }
+}
+   
 }
 
 echo $msg;
@@ -89,7 +102,7 @@ $groups = getAllGroups($email, $workspace_name);
   </div> 
   
   <div class="form-group">
-    <input type="submit" value="Create Group" class="btn btn-dark" name="db-btn" title="Create Group"/>
+    <input type="submit" value="Create Group" class="btn btn-dark" name="create-group" title="Create Group"/>
     <small class="text-danger"><?php echo $msg ?></small>
   </div>  
 </form>
@@ -106,29 +119,29 @@ $groups = getAllGroups($email, $workspace_name);
       <?php foreach ($groups as $group): ?>
       <tr>
         <td>
-          <?php echo $list['group_ID']; ?> 
+          <?php echo $group['group_ID']; ?> 
         </td>
         <td>
-          <?php echo $list['name']; ?> 
+          <?php echo $group['group_name']; ?> 
         </td>        
         <td>
-          <?php echo $list['description']; ?> 
+          <?php echo $group['description']; ?> 
         </td>                
         <td>
           <form action="workspace.php" method="post">
-            <input type="submit" value="View" name="action" class="btn btn-primary" />             
+            <input type="submit" value="View Group" name="action" class="btn btn-primary" />             
             <input type="hidden" name="group_ID" value="<?php echo $group['group_ID'] ?>" />
           </form> 
         </td>                        
         <td>
           <form action="workspace.php" method="post">
-            <input type="submit" value="Remove" name="action" class="btn btn-danger" />      
+            <input type="submit" value="Remove Group" name="action" class="btn btn-danger" />      
             <input type="hidden" name="group_ID" value="<?php echo $group['group_ID'] ?>" />
           </form>
         </td>
         <td>
           <form action="workspace.php" method="post">
-            <input type="submit" value="Share" name="action" class="btn btn-danger" />      
+            <input type="submit" value="Share Group" name="action" class="btn btn-danger" />      
             <input name="other_email" placeholder="email"/>
             <input type="hidden" name="group_ID" value="<?php echo $group['group_ID'] ?>" />  
           </form>
@@ -149,7 +162,7 @@ $groups = getAllGroups($email, $workspace_name);
   </div> 
   
   <div class="form-group">
-    <input type="submit" value="Create List" class="btn btn-dark" name="db-btn" title="Create List"/>
+    <input type="submit" value="Create List" class="btn btn-dark" name="create-list" title="Create List"/>
     <small class="text-danger"><?php echo $msg ?></small>
   </div>  
 </form>
@@ -177,19 +190,19 @@ $groups = getAllGroups($email, $workspace_name);
         </td>                
         <td>
           <form action="workspace.php" method="post">
-            <input type="submit" value="View" name="action" class="btn btn-primary" />             
+            <input type="submit" value="View List" name="action" class="btn btn-primary" />             
             <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />
           </form> 
         </td>                        
         <td>
           <form action="workspace.php" method="post">
-            <input type="submit" value="Remove" name="action" class="btn btn-danger" />      
+            <input type="submit" value="Remove List" name="action" class="btn btn-danger" />      
             <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />
           </form>
         </td>
         <td>
           <form action="workspace.php" method="post">
-            <input type="submit" value="Share" name="action" class="btn btn-danger" />      
+            <input type="submit" value="Share List" name="action" class="btn btn-danger" />      
             <input name="other_email" placeholder="email"/>
             <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />  
           </form>

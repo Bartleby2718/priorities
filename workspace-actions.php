@@ -70,7 +70,7 @@ function shareList($email, $list_ID)
 {
    global $db;
    // put list into default workspace
-   $query = "INSERT INTO workspace_list_connection VALUES (:email, DEFAULT, :list_ID)";
+   $query = "INSERT INTO workspace_list_connection VALUES (:email, 'primary', :list_ID)";
    
    echo "shared list number $list_ID with $email <br/>";
    $statement = $db->prepare($query);
@@ -249,6 +249,20 @@ function removeList($list_ID, $workspace_name, $email)
    $statement->closeCursor();
 
 
+}
+
+function removeGroup($group_ID, $workspace_name, $email)
+{
+   global $db;
+	
+   $query = "DELETE FROM groups WHERE group_ID=:group_ID AND workspace_name=:workspace_name AND email=:email";
+   $statement = $db->prepare($query);
+   $statement->bindValue(':group_ID', $group_ID);
+   $statement->bindValue(':workspace_name', $workspace_name); //temporary
+   $statement->bindValue(':email', $email); //temporary
+   $statement->execute();
+
+   $statement->closeCursor();
 }
 ?>
 
