@@ -309,6 +309,24 @@ function MoveFromGrouptoList($list_ID, $group_ID, $workspace_name, $email)
 
    $statement->closeCursor();
 }
+
+function getUserEmails($email, $list_ID)
+{
+   global $db;
+	
+   $query = "select * from workspace_list_connection where email != :email";
+   $statement = $db->prepare($query);
+   $statement->bindValue(':email', $email);
+   $statement->execute();
+
+   // fetchAll() returns an array for all of the rows in the result set
+   $results = $statement->fetchAll();
+	
+   // closes the cursor and frees the connection to the server so other SQL statements may be issued
+   $statement->closecursor();
+	
+   return $results;
+}
 ?>
 
 
