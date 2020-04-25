@@ -118,7 +118,7 @@ $lists = getAllListsRelevantGroup($group_ID);
           <?php echo $list['description']; ?> 
         </td>                
         <td>
-          <form action="workspace.php" method="post">
+          <form action="group.php" method="post">
             <input type="submit" value="View List" name="action" class="btn btn-primary" />      
             <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />  
           </form>

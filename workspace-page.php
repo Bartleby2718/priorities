@@ -102,7 +102,7 @@ $groups = getAllGroups($email, $workspace_name);
 <div class="container">
 <br/>
 <h1>Groups</h1>
-<form action="workspace.php" method="post">
+<form action="workspace-page.php" method="post">
   <div class="form-group">
     Group Name:
     <input type="text" class="form-control" name="name" placeholder="Enter a group name">        
@@ -138,13 +138,13 @@ $groups = getAllGroups($email, $workspace_name);
           <?php echo $group['description']; ?> 
         </td>                
         <td>
-        <form action="workspace.php" method="post">
+        <form action="workspace-page.php" method="post">
             <input type="submit" value="View Group" name="action" class="btn btn-primary" />      
             <input type="hidden" name="group_ID" value="<?php echo $group['group_ID'] ?>" />  
           </form>         
         </td>                        
         <td>
-          <form action="workspace.php" method="post">
+          <form action="workspace-page.php" method="post">
             <input type="submit" value="Remove Group" name="action" class="btn btn-danger" />      
             <input type="hidden" name="group_ID" value="<?php echo $group['group_ID'] ?>" />
           </form>
@@ -154,7 +154,7 @@ $groups = getAllGroups($email, $workspace_name);
     </table>
 <br/>
 <h1>Lists</h1>
-<form action="workspace.php" method="post">
+<form action="workspace-page.php" method="post">
   <div class="form-group">
     Title:
     <input type="text" class="form-control" name="title" placeholder="Enter a title">        
@@ -194,26 +194,26 @@ $groups = getAllGroups($email, $workspace_name);
           <?php echo $list['description']; ?> 
         </td>                
         <td>
-          <form action="workspace.php" method="post">
+          <form action="workspace-page.php" method="post">
             <input type="submit" value="View List" name="action" class="btn btn-primary" />      
             <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />  
           </form>
         </td>                        
         <td>
-          <form action="workspace.php" method="post">
+          <form action="workspace-page.php" method="post">
             <input type="submit" value="Remove List" name="action" class="btn btn-danger" />      
             <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />
           </form>
         </td>
         <td>
-          <form action="workspace.php" method="post">
+          <form action="workspace-page.php" method="post">
             <input type="submit" value="Share List" name="action" class="btn btn-info" />      
             <input name="other_email" placeholder="email"/>
             <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />  
           </form>
         </td>
         <td>
-          <form action="workspace.php" method="post">
+          <form action="workspace-page.php" method="post">
             <input type="submit" value="Move Into Group" name="action" class="btn btn-info" />      
             <select name="group_select">
               <?php foreach ($groups as $group):?>
