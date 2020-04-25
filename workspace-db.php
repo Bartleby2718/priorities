@@ -81,6 +81,40 @@ function addWorkspace($email, $workspace_name, $description)
 }
 
 
+function newWorkspace($email, $workspace_name, $description = "")
+{
+   global $db;
+   $query = "SHOW TABLE STATUS LIKE 'workspace'";
+   $statement = $db->prepare($query);
+   $statement->execute();
+	
+   // fetchAll() returns an array for all of the rows in the result set
+   // fetch() return a row
+   $result = $statement->fetch();
+   $group_ID = $result['Auto_increment'];
+
+   // insert into friends (name, major, year) values ('someone', 'CS', 4);
+   $query = "INSERT INTO groups VALUES (DEFAULT, :email, :workspace_name, :name, :description)";
+   
+   echo "newWorkspace: $workspace_name : $description <br/>";
+   $statement = $db->prepare($query);
+   $statement->bindValue(':email', $email);
+   $statement->bindValue(':workspace_name', $workspace_name);
+   $statement->bindValue(':description', $description);
+   $statement->execute();     // if the statement is successfully executed, execute() returns true
+   // false otherwise
+   $statement->closeCursor();
+
+   // closes the cursor and frees the connection to the server so other SQL statements may be issued
+   $statement->closeCursor();
+
+   if ($email == "") {
+      echo "Not enough parameters entered for newGroup query";
+   }
+
+   $statement->closeCursor();
+}
+
 function updateWorkspace($email, $workspace_name, $description)
 {
    global $db;
@@ -96,13 +130,13 @@ function updateWorkspace($email, $workspace_name, $description)
 
 
 
-function deleteWorkspace($email)
+function deleteWorkspace($workspace_name)
 {
    global $db;
 	
-   $query = "DELETE FROM workspace WHERE email=:email";
+   $query = "DELETE FROM workspace WHERE workspace_name=:workspace_name";
    $statement = $db->prepare($query);
-   $statement->bindValue(':email', $email);
+   $statement->bindValue(':workspace_name', $workspace_name);
    $statement->execute();
    $statement->closeCursor();
 }
