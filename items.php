@@ -12,8 +12,6 @@
 
 <body>
     <?php
-    echo 'Welcome to item page!';
-
     // Import functions
     require('item-db.php');
 
@@ -23,7 +21,6 @@
     $list_ID = array_key_exists('list_ID', $_COOKIE) ? $_COOKIE['list_ID'] : 'list_ID not found in cookie';
 
     echo 'email in the cookie: ', $email, '<br>';
-    echo 'workspace_name in the cookie: ', $workspace_name, '<br>';
     echo 'list_ID in the cookie: ', $list_ID, '<br>';
 
     echo '<br>';
@@ -34,7 +31,7 @@
     <h4>Items for List ID <?php echo $list_ID; ?></h4>
     <table class="table table-striped table-bordered" id="myTable">
         <!-- Headers -->
-        <tr>
+        <tr class="text-center">
             <th>Item ID</th>
             <th>Description</th>
             <th>Date Created</th>
@@ -48,13 +45,13 @@
         <?php foreach ($items as $list) : ?>
         <tr>
             <form action="items-update.php" method="post">
-                <td data-sort='<?php echo $list['item_ID']; ?>'>
+                <td class="text-center">
                     <?php echo $list['item_ID']; ?>
                 </td>
                 <td>
-                    <input type="text" name="description" value="<?php echo $list['description']; ?>" />
+                    <input type="text" name="description" value="<?php echo $list['description']; ?>" class="form-control" />
                 </td>
-                <td>
+                <td class="text-center">
                     <?php echo $list['date_time_created']; ?>
                 </td>
                 <td>
@@ -65,26 +62,26 @@
                     <?php else :
                             $formatted_date = Date('Y-m-d', strtotime($list['date_time_due']));
                             echo
-                                "<input type='date' name='date_time_due' value='",
+                                '<input type="date" name="date_time_due" value="',
                                 $formatted_date,
-                                "'";
+                                '" class="form-control"';
                         endif; ?>
                 </td>
-                <td>
+                <td class="text-center">
                     <input type="hidden" name="item_ID" value="<?php echo $list['item_ID'] ?>" />
                     <input type="submit" value="Update" class="btn btn-info" />
                 </td>
             </form>
-            <td>
+            <td class="text-center">
                 <form action="items-delete.php" method="post">
                     <input type="hidden" name="item_ID" value="<?php echo $list['item_ID'] ?>" />
                     <input type="submit" value="Remove" class="btn btn-danger" />
                 </form>
             </td>
-            <td>
+            <td class="text-center">
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#assignModal" data-item="<?php echo $list['item_ID']; ?>">Assign</button>
             </td>
-            <td>
+            <td class="text-center">
                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#unassignModal" data-item="<?php echo $list['item_ID']; ?>">Unassign</button>
             </td>
         </tr>
@@ -92,22 +89,22 @@
         <!-- New item -->
         <form action="items-create.php" method="post">
             <tr>
-                <td>
+                <td class="text-center">
                     <!-- "item_ID" is automatically added later.-->
                     Create a new item!
                 </td>
                 <td>
-                    <input type="text" name="description" placeholder="What do you need to do?" required>
+                    <input type="text" name="description" placeholder="What do you need to do?" class="form-control" required>
                 </td>
-                <td>
+                <td class="text-center">
                     <!-- "Date Created" is automatically added later.-->
                     -
                 </td>
                 <td>
                     <!-- TODO: Improve date widget later -->
-                    <input type="date" name="date_time_due">
+                    <input type="date" name="date_time_due" class="form-control">
                 </td>
-                <td>
+                <td class="text-center">
                     <input type="hidden" name="list_ID" value="<?php echo $list_ID ?>" />
                     <input type="submit" value="Create" class="btn btn-primary" />
                 </td>
