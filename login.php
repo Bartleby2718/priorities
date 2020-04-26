@@ -34,6 +34,7 @@ if(array_key_exists('email', $_COOKIE)){
 
 <body>
 <div class="container">
+<br/>
 <h1>Login</h1>
 <form action="login-std.php" method="post">   
   <div class="form-group">

@@ -107,8 +107,7 @@ $user_workspaces = getAllOtherWorkspaces($email, $workspace_name);
 <body>
 <div class="container">
 <br/>
-<a href="/cs4750/priorities/profile.php" class="btn btn-info" role="button">Profile</a>
-<a href="/cs4750/priorities/logout.php" class="btn btn-warning" role="button">Logout</a>
+
 <h1>Groups</h1>
 <form action="workspace-page.php" method="post">
   <div class="form-group">

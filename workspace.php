@@ -74,6 +74,9 @@ $workspaces = getWorkspaceInfo_by_email($email);
 	
 <body>
 	<div class="container">
+	<br/>
+	<a href="/cs4750/priorities/profile.php" class="btn btn-info" role="button">Profile</a>
+<a href="/cs4750/priorities/logout.php" class="btn btn-warning" role="button">Logout</a>
 	<h1>Add Workspace</h1>
 	<form action="workspace.php" method="post">
 	  <div class="form-group">
