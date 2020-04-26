@@ -13,5 +13,27 @@ function getUser($email)
     $statement->execute();
     $results = $statement->fetch();
     $statement->closecursor();
+    if (!is_array($results)) {
+        // Redirect to the login page if not logged in
+        header("Location: /cs4750/priorities/login.php");
+        die();
+    }
+    return $results;
+}
+
+function getList($list_ID)
+{
+    global $db;
+    $query = "SELECT * FROM lists WHERE list_ID=:list_ID;";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':list_ID', $list_ID);
+    $statement->execute();
+    $results = $statement->fetch();
+    $statement->closeCursor();
+    if (!is_array($results)) {
+        // Redirect to the workspace page if list_ID invalid
+        header("Location: /cs4750/priorities/workspace-page.php");
+        die();
+    }
     return $results;
 }
