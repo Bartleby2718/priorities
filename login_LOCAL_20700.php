@@ -1,5 +1,4 @@
 <?php
-
 // include('connectdb.php');
 require('login-db.php');
 
@@ -83,6 +82,5 @@ require('login-db.php');
 
 // empty() accepts a variable argument and
 // returns TRUE if its value is an empty string, zero, NULL or FALSE
-
 
 ?>

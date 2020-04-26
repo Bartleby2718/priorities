@@ -47,8 +47,8 @@ if (!empty($_POST['action']))
    }
    else if ($_POST['action'] == "Share List")
    {
-      if (!empty($_POST['other_email']) ) {
-        shareList($_POST['other_email'],$_POST['list_ID']);
+      if (!empty($_POST['user_select']) ) {
+        shareList($_POST['user_select'],$_POST['list_ID']);
       }   
    } else if ($_POST['action'] == "View List")
    {
@@ -72,12 +72,18 @@ if (!empty($_POST['action']))
       echo "Moving ".$_POST['list_ID']." into group: ".$_POST['group_select'];
       moveListIntoGroup($_POST['list_ID'], $_POST['group_select'], $workspace_name, $email);
      }
+ } else if ($_POST['action'] == "Move to Different Workspace")
+ {
+    if (!empty($_POST['list_ID']) & !empty($_POST['workspace_switched']) ) {
+      SwitchListWorkspace($email, $workspace_name, $_POST['workspace_switched'], $_POST['list_ID']);
+    }
  }
 }
 
 echo $msg;
 $lists = getAllListsRelevantNoGroup($email, $workspace_name);
 $groups = getAllGroups($email, $workspace_name);
+$user_workspaces = getAllOtherWorkspaces($email, $workspace_name);
 
 // } else {
 //   $lists = getAllListsRelevantGroup($group_ID);
@@ -95,14 +101,15 @@ $groups = getAllGroups($email, $workspace_name);
   <meta name="author" content="your name">
   <meta name="description" content="include some description about your page">      
   <title>Database interfacing</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <button><a href="/cs4750/priorities/workspace.php">Go back to <?php echo $email?> Page</a></button>  
 </head>
 
 <body>
 <div class="container">
 <br/>
 <h1>Groups</h1>
-<form action="workspace.php" method="post">
+<form action="workspace-page.php" method="post">
   <div class="form-group">
     Group Name:
     <input type="text" class="form-control" name="name" placeholder="Enter a group name">        
@@ -138,13 +145,13 @@ $groups = getAllGroups($email, $workspace_name);
           <?php echo $group['description']; ?> 
         </td>                
         <td>
-        <form action="workspace.php" method="post">
+        <form action="workspace-page.php" method="post">
             <input type="submit" value="View Group" name="action" class="btn btn-primary" />      
             <input type="hidden" name="group_ID" value="<?php echo $group['group_ID'] ?>" />  
           </form>         
         </td>                        
         <td>
-          <form action="workspace.php" method="post">
+          <form action="workspace-page.php" method="post">
             <input type="submit" value="Remove Group" name="action" class="btn btn-danger" />      
             <input type="hidden" name="group_ID" value="<?php echo $group['group_ID'] ?>" />
           </form>
@@ -154,7 +161,7 @@ $groups = getAllGroups($email, $workspace_name);
     </table>
 <br/>
 <h1>Lists</h1>
-<form action="workspace.php" method="post">
+<form action="workspace-page.php" method="post">
   <div class="form-group">
     Title:
     <input type="text" class="form-control" name="title" placeholder="Enter a title">        
@@ -180,6 +187,7 @@ $groups = getAllGroups($email, $workspace_name);
         <th>&nbsp;</th>
         <th>&nbsp;</th>
         <th>&nbsp;</th>
+        <th>&nbsp;</th>
         <!-- <th>&nbsp;</th> -->
       </tr>      
       <?php foreach ($lists as $list): ?>
@@ -194,33 +202,49 @@ $groups = getAllGroups($email, $workspace_name);
           <?php echo $list['description']; ?> 
         </td>                
         <td>
-          <form action="workspace.php" method="post">
+          <form action="workspace-page.php" method="post">
             <input type="submit" value="View List" name="action" class="btn btn-primary" />      
             <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />  
           </form>
         </td>                        
         <td>
-          <form action="workspace.php" method="post">
+          <form action="workspace-page.php" method="post">
             <input type="submit" value="Remove List" name="action" class="btn btn-danger" />      
             <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />
           </form>
         </td>
         <td>
-          <form action="workspace.php" method="post">
+          <form action="workspace-page.php" method="post">
             <input type="submit" value="Share List" name="action" class="btn btn-info" />      
-            <input name="other_email" placeholder="email"/>
+            <select name="user_select">
+            <?php foreach (getUserEmails($list['list_ID']) as $user):?>
+                <option value="<?php echo $user['email']?>"><?php echo $user['email']?></option>
+              <?php endforeach; ?>
+              
+            </select>
             <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />  
           </form>
         </td>
         <td>
-          <form action="workspace.php" method="post">
+          <form action="workspace-page.php" method="post">
             <input type="submit" value="Move Into Group" name="action" class="btn btn-info" />      
             <select name="group_select">
-              <?php foreach ($groups as $group):?>
+            <?php foreach ($groups as $group):?>
                 <option value="<?php echo $group['group_ID']?>"><?php echo $group['group_name']?></option>
               <?php endforeach; ?>
             </select>
             <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />  
+          </form>
+        </td> 
+        <td>
+          <form action="workspace-page.php" method="post">
+          <input type="submit" value="Move to Different Workspace" name="action" class="btn btn-info" />      
+            <select name="workspace_switched">
+            <?php foreach ($user_workspaces as $w):?>
+                <option value="<?php echo $w['workspace_name']?>"><?php echo $w['workspace_name']?></option>
+              <?php endforeach; ?>
+            </select>
+            <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />    
           </form>
         </td>                         
       </tr>
