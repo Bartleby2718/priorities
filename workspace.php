@@ -26,7 +26,7 @@ $description = 'This is my primary workspace';
 // if ($_COOKIE['email'] == ""){
 // 	header('Location:/cs4750/priorities/login.php');
 // }
-setcookie('email',$_COOKIE['email']=$email);
+setrawcookie('email',$_COOKIE['email']=$email);
 // setcookie('workspace_name',$_COOKIE['workspace_name']=$workspace_name);
 
 	if (!empty($_POST['create_workspace']))
