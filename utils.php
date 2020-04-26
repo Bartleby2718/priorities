@@ -21,17 +21,17 @@ function getUser($email)
     return $results;
 }
 
-function getList($workspace_name)
+function getList($list_ID)
 {
     global $db;
-    $query = "SELECT * FROM lists WHERE workspace_name=:workspace_name;";
+    $query = "SELECT * FROM lists WHERE list_ID=:list_ID;";
     $statement = $db->prepare($query);
-    $statement->bindValue(':workspace_name', $workspace_name);
+    $statement->bindValue(':list_ID', $list_ID);
     $statement->execute();
     $results = $statement->fetch();
     $statement->closeCursor();
     if (!is_array($results)) {
-        // Redirect to the workspace page if workspace_name invalid
+        // Redirect to the workspace page if list_ID invalid
         header("Location: /cs4750/priorities/workspace-page.php");
         die();
     }
