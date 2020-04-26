@@ -83,7 +83,7 @@ reminder_ID INT PRIMARY KEY AUTO_INCREMENT,
 	);
 
 CREATE TRIGGER new_user_created 
-AFTER INSERT ON user
+AFTER INSERT ON users
 FOR EACH ROW 
     INSERT INTO workspace(email, workspace_name, description)
     VALUES (NEW.email, 'Personal', 'Any personal matters that need to be done');
