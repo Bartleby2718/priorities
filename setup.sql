@@ -91,7 +91,7 @@ FOR EACH ROW
 DELIMITER //
 CREATE PROCEDURE new_user (IN my_email VARCHAR(255), IN my_password VARCHAR(255), IN my_fname VARCHAR(255), IN my_lname VARCHAR(255)) 
 BEGIN 
-INSERT INTO users(email, my_password, first_name, last_name) VALUES(my_email, SHA2(my_password, 256), my_fname, my_lname); 
+INSERT INTO users(email, password, first_name, last_name) VALUES(my_email, SHA2(my_password, 256), my_fname, my_lname); 
 END;
 //
 
