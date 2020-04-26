@@ -1,10 +1,5 @@
-
-
-
-	
-	<?php
+<?php
 // include('connectdb.php');
-require('connectdb.php');
 require('login-db.php');
 
 // steps: 
@@ -16,41 +11,6 @@ require('login-db.php');
 ?>
 
 
-<?php
-//$email = $_POST['email']
-//$workspace_name = $_POST['workspace_name']
-//$group_ID = $_POST['group_ID']
-$msg = '';
-// $email = $_GET['email'];
-// $workspace_name = $_GET['workspace_name'];
-$group_ID = $_COOKIE['group_ID'];
-$email = $_COOKIE['email'];
-$workspace_name = $_COOKIE['workspace_name'];
-echo $group_ID;
-
-if (!empty($_POST['login']))
-{
-	$acc_email = filter_var($_POST["email"], FILTER_SANITIZE_STRING);
-	$acc_pass = filter_var($_POST["password"], FILTER_SANITIZE_STRING);
-	$confirmed_email = CheckCreds($acc_email, $acc_pass)
-	if (isset($confirmed_email)){
-		setcookie('email', $confirmed_email);
-	}	
-}
-if (!empty($_POST['new-account']))
-{
-	$acc_email = filter_var($_POST['email'], FILTER_SANITIZE_STRING);
-	$acc_pass = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
-	$acc_fname = filter_var($_POST['fname'], FILTER_SANITIZE_STRING);
-	$acc_lname = filter_var($_POST['lname'], FILTER_SANITIZE_STRING);
-	NewAccount($acc_email, $acc_pass, $acc_fname, $acc_lname);
-	if (isset($_POST['phone'])){
-		$acc_phone = filter_var($_POST['phone'], FILTER_SANITIZE_STRING);
-		AddPhone($acc_email,$acc_phone);
-	}	
-}
-
-?>
 
 
 <!DOCTYPE html>
@@ -87,7 +47,7 @@ if (!empty($_POST['new-account']))
   </div>  
   <div class="form-group">
     Password:
-    <input type="text" class="form-control" name="password" required />        
+    <input type="text" class="form-control" name="password" input-typrequired />        
   </div>  
   <div class="form-group">
     First Name:

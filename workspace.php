@@ -16,9 +16,9 @@ require('workspace-actions.php');
 //$workspace_name = $_POST['workspace_name']
 //$group_ID = $_POST['group_ID']
 $msg = '';
-$email = 'up3f@virginia.edu';
+$email = array_key_exists('email', $_COOKIE) ? $_COOKIE['email'] : 'email not found in cookie';
 $workspace_name = 'DB';
-setcookie('email',$_COOKIE['email']=$email);
+
 setcookie('workspace_name',$_COOKIE['workspace_name']=$workspace_name);
 
 if (!empty($_POST['create-list']))
