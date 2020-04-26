@@ -40,7 +40,7 @@ if (!empty($_POST['action']))
 {
    if ($_POST['action'] == "View Workspace") {
 	   if (!empty($_POST['workspace_name'])){
-		setrawcookie("workspace_name",$_POST['workspace_name']);
+		setcookie("workspace_name",$_POST['workspace_name']);
 		header('Location: /cs4750/priorities/workspace-page.php');
 	   }
    }  
@@ -71,8 +71,7 @@ $workspaces = getWorkspaceInfo_by_email($email);
 <body>
 	<div class="container">
 	<br/>
-	<a href="/cs4750/priorities/profile.php" class="btn btn-info" role="button">Profile</a>
-<a href="/cs4750/priorities/logout.php" class="btn btn-warning" role="button">Logout</a>
+
 	<h1>Add Workspace</h1>
 	<form action="workspace.php" method="post">
 	  <div class="form-group">
@@ -90,6 +89,7 @@ $workspaces = getWorkspaceInfo_by_email($email);
 	</form>
 	<a href="reminders.php" class="btn btn-primary" style="background-color:green">Reminders</a>
 	<a href="profile.php" class="btn btn-primary" style="background-color:pink">Profile</a>	
+	<a href="/cs4750/priorities/logout.php" class="btn btn-warning" role="button">Logout</a>
 	<div class="row">
 	  <div class="col-sm-6">
 	  <h4>Workspaces for <?php echo $email?></h4>

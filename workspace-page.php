@@ -17,7 +17,7 @@ require('utils.php');
 $msg = '';
 // Get information from cookie
 $email = array_key_exists('email', $_COOKIE) ? $_COOKIE['email'] : 'email not found in cookie';
-$workspace_name = array_key_exists('workspace_name', $_COOKIE) ? $_COOKIE['workspace_name'] : 'workspace_name not found in cookie';
+$workspace_name = $_COOKIE['workspace_name'];
 // Check if logged in
 $user = getUser($email);
 if (!empty($_POST['create-list']))
@@ -124,7 +124,7 @@ $user_workspaces = getAllOtherWorkspaces($email, $workspace_name);
     <small class="text-danger"><?php echo $msg ?></small>
   </div>  
 </form>
-<h4>Groups In This Workspace</h4>
+<h4>Groups In <?php echo $workspace_name?></h4>
     <table class="table table-striped table-bordered">
       <tr>
         <th>Group ID</th>
