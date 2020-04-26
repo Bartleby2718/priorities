@@ -46,9 +46,9 @@ if (!empty($_POST['action']))
    }
    else if ($_POST['action'] == "Share")
    {
-      if (!empty($_POST['other_email']) ) {
-        shareList($_POST['other_email'],$_POST['list_ID']);
-      }
+    if (!empty($_POST['user_select']) & !empty($_POST['list_ID'])) {
+      shareList($_POST['user_select'],$_POST['list_ID']);
+    }
    } else if ($_POST['action'] == "Move Back to Workspace")
    {
       if (!empty($_POST['list_ID']) ) {
@@ -71,8 +71,9 @@ $lists = getAllListsRelevantGroup($group_ID);
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="your name">
   <meta name="description" content="include some description about your page">      
-  <title>Database interfacing</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">  
+  <title>Group Page</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <button><a href="/cs4750/priorities/workspace-page.php">Go back to <?php echo $workspace_name?></a></button>
 </head>
 
 <body>
@@ -105,6 +106,7 @@ $lists = getAllListsRelevantGroup($group_ID);
         <th>&nbsp;</th>
         <th>&nbsp;</th>
         <th>&nbsp;</th>
+        <th>&nbsp;</th>
       </tr>      
       <?php foreach ($lists as $list): ?>
       <tr>
@@ -130,18 +132,23 @@ $lists = getAllListsRelevantGroup($group_ID);
           </form>
         </td>
         <td>
-          <form action="group.php" method="post">
-            <input type="submit" value="Share" name="action" class="btn btn-danger" />      
-            <input name="other_email" placeholder="email"/>
+        <form action="workspace-page.php" method="post">
+            <input type="submit" value="Share List" name="action" class="btn btn-info" />      
+            <select name="user_select">
+              <?php foreach (getUserEmails($list['list_ID']) as $user):?>
+                <option value="<?php echo $user['email']?>"><?php echo $user['email']?></option>
+              <?php endforeach; ?>
+            </select>
             <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />  
           </form>
-        </td>
+        </td>     
         <td>
           <form action="group.php" method="post">
             <input type="submit" value="Move Back to Workspace" name="action" class="btn btn-danger" />      
             <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />  
           </form>
-        </td>                                          
+        </td>
+                                                  
       </tr>
       <?php endforeach; ?>
     </table>

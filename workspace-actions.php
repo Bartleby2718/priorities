@@ -310,13 +310,58 @@ function MoveFromGrouptoList($list_ID, $group_ID, $workspace_name, $email)
    $statement->closeCursor();
 }
 
-function getUserEmails($email, $list_ID)
+function getUserEmails($list_ID)
 {
    global $db;
 	
-   $query = "select * from workspace_list_connection where email != :email";
+   $query = "select email from users where email NOT IN(select distinct email from workspace_list_connection where list_ID = :list_ID)";
+   $statement = $db->prepare($query);
+   $statement->bindValue(':list_ID', $list_ID);
+   $statement->execute();
+
+   // fetchAll() returns an array for all of the rows in the result set
+   $results = $statement->fetchAll();
+	
+   // closes the cursor and frees the connection to the server so other SQL statements may be issued
+   $statement->closecursor();
+	
+   return $results;
+}
+
+function getAllOtherWorkspaces($email, $workspace_name)
+{
+   global $db;
+	
    $statement = $db->prepare($query);
    $statement->bindValue(':email', $email);
+   $statement->bindValue(':workspace_name', $workspace_name);
+   $statement->execute();
+
+   // fetchAll() returns an array for all of the rows in the result set
+   $results = $statement->fetchAll();
+	
+   // closes the cursor and frees the connection to the server so other SQL statements may be issued
+   $statement->closecursor();
+	
+   return $results;
+}
+
+function SwitchListWorkspace($email, $old_workspace, $new_workspace, $list_ID)
+{
+   global $db;
+
+   $query = "DELETE FROM workspace_list_connection WHERE list_ID=:list_ID AND email=:email AND workspace_name=:old_workspace";
+   $statement = $db->prepare($query);
+   $statement->bindValue(':list_ID', $list_ID);
+   $statement->bindValue(':email', $email); 
+   $statement->bindValue(':old_workspace', $old_workspace); 
+   $statement->execute();
+	
+   $query = "INSERT INTO workspace_list_connection VALUES (:email, :new_workspace, :list_ID)";
+   $statement = $db->prepare($query);
+   $statement->bindValue(':email', $email);
+   $statement->bindValue(':new_workspace', $new_workspace);
+   $statement->bindValue(':list_ID', $list_ID);
    $statement->execute();
 
    // fetchAll() returns an array for all of the rows in the result set
