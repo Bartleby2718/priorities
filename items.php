@@ -42,25 +42,25 @@
             <th></th>
         </tr>
         <!-- Existing items -->
-        <?php foreach ($items as $list) : ?>
+        <?php foreach ($items as $item) : ?>
         <tr>
             <form action="items-update.php" method="post">
                 <td class="text-center">
-                    <?php echo $list['item_ID']; ?>
+                    <?php echo $item['item_ID']; ?>
                 </td>
                 <td>
-                    <input type="text" name="description" value="<?php echo $list['description']; ?>" class="form-control" />
+                    <input type="text" name="description" value="<?php echo $item['description']; ?>" class="form-control" />
                 </td>
                 <td class="text-center">
-                    <?php echo $list['date_time_created']; ?>
+                    <?php echo $item['date_time_created']; ?>
                 </td>
                 <td>
                     <!-- no due date -->
-                    <?php if ($list['date_time_due'] === null) : ?>
+                    <?php if ($item['date_time_due'] === null) : ?>
                     <input type='date' name='date_time_due'>
                     <!-- has due date -->
                     <?php else :
-                            $formatted_date = Date('Y-m-d', strtotime($list['date_time_due']));
+                            $formatted_date = Date('Y-m-d', strtotime($item['date_time_due']));
                             echo
                                 '<input type="date" name="date_time_due" value="',
                                 $formatted_date,
@@ -68,21 +68,21 @@
                         endif; ?>
                 </td>
                 <td class="text-center">
-                    <input type="hidden" name="item_ID" value="<?php echo $list['item_ID'] ?>" />
+                    <input type="hidden" name="item_ID" value="<?php echo $item['item_ID'] ?>" />
                     <input type="submit" value="Update" class="btn btn-info" />
                 </td>
             </form>
             <td class="text-center">
                 <form action="items-delete.php" method="post">
-                    <input type="hidden" name="item_ID" value="<?php echo $list['item_ID'] ?>" />
+                    <input type="hidden" name="item_ID" value="<?php echo $item['item_ID'] ?>" />
                     <input type="submit" value="Remove" class="btn btn-danger" />
                 </form>
             </td>
             <td class="text-center">
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#assignModal" data-item="<?php echo $list['item_ID']; ?>">Assign</button>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#assignModal" data-item="<?php echo $item['item_ID']; ?>">Assign</button>
             </td>
             <td class="text-center">
-                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#unassignModal" data-item="<?php echo $list['item_ID']; ?>">Unassign</button>
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#unassignModal" data-item="<?php echo $item['item_ID']; ?>">Unassign</button>
             </td>
         </tr>
         <?php endforeach; ?>
