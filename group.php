@@ -2,6 +2,7 @@
 // include('connectdb.php');
 require('connectdb.php');
 require('workspace-actions.php');
+require('utils.php');
 
 // steps: 
 // 1. establish a connection (configure: load driver, specify host, specify username/password)
@@ -12,19 +13,14 @@ require('workspace-actions.php');
 ?>
 
 <?php
-//$email = $_POST['email']
-//$workspace_name = $_POST['workspace_name']
-//$group_ID = $_POST['group_ID']
 $msg = '';
-// $email = $_GET['email'];
-// $workspace_name = $_GET['workspace_name'];
-if (empty($_COOKIE['email'])){
-  header("location:/cs4750/priorites/login.php");
-}
-$group_ID = $_COOKIE['group_ID'];
-$email = $_COOKIE['email'];
-$workspace_name = $_COOKIE['workspace_name'];
+$email = array_key_exists('email', $_COOKIE) ? $_COOKIE['email'] : 'email not found in cookie';
+$workspace_name = array_key_exists('workspace_name', $_COOKIE) ? $_COOKIE['workspace_name'] : 'workspace_name not found in cookie';
+$group_ID = array_key_exists('group_ID', $_COOKIE) ? $_COOKIE['group_ID'] : 'group_ID not found in cookie';
 echo $group_ID;
+
+// Check if logged in
+$user = getUser($email);
 
 if (!empty($_POST['db-btn']))
 {
