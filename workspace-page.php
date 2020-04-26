@@ -15,8 +15,11 @@ require('workspace-actions.php');
 //$email = $_POST['email']
 //$workspace_name = $_POST['workspace_name']
 //$group_ID = $_POST['group_ID']
+if (empty($_COOKIE['email'])){
+  header("location:/cs4750/priorites/login.php");
+}
 $msg = '';
-$email = array_key_exists('email', $_COOKIE) ? $_COOKIE['email'] : 'email not found in cookie';
+$email = $_COOKIE['email'];
 $workspace_name = 'DB';
 
 setcookie('workspace_name',$_COOKIE['workspace_name']=$workspace_name);

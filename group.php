@@ -18,6 +18,9 @@ require('workspace-actions.php');
 $msg = '';
 // $email = $_GET['email'];
 // $workspace_name = $_GET['workspace_name'];
+if (empty($_COOKIE['email'])){
+  header("location:/cs4750/priorites/login.php");
+}
 $group_ID = $_COOKIE['group_ID'];
 $email = $_COOKIE['email'];
 $workspace_name = $_COOKIE['workspace_name'];
