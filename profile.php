@@ -15,15 +15,18 @@ $numbers = getNumbers($email);
 if (!empty($_POST['change-pass']))
 {
 	changePassword($email, $_POST['password']);
+	header("Location: /cs4750/priorities/profile.php");
+	exit();
 }
 else if (!empty($_POST['new-number'])) {
 	addNumber($email, $_POST['number']);
-}
-else if (!empty($_POST['new-number'])) {
-	addNumber($email, $_POST['number']);
+	header("Location: /cs4750/priorities/profile.php");
+	exit();
 }
 else if (!empty($_POST['remove-number'])){
 	deleteNumber($email, $_POST['phoneNum']);
+	header("Location: /cs4750/priorities/profile.php");
+	exit();
 }
 
 
