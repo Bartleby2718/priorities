@@ -20,3 +20,20 @@ function getUser($email)
     }
     return $results;
 }
+
+function getList($workspace_name)
+{
+    global $db;
+    $query = "SELECT * FROM lists WHERE workspace_name=:workspace_name;";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':workspace_name', $workspace_name);
+    $statement->execute();
+    $results = $statement->fetch();
+    $statement->closeCursor();
+    if (!is_array($results)) {
+        // Redirect to the workspace page if workspace_name invalid
+        header("Location: /cs4750/priorities/workspace-page.php");
+        die();
+    }
+    return $results;
+}

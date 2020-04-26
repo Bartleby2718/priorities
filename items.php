@@ -23,6 +23,8 @@
 
     // Check if logged in
     $user = getUser($email);
+    // Check if list_ID is valid
+    $list = getList($list_ID);
     echo 'Show all items in a given list:', '<br>';
     $items = getItems($list_ID);
     ?>
