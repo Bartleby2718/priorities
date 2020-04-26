@@ -19,10 +19,8 @@ $msg = '';
 $email = array_key_exists('email', $_COOKIE) ? $_COOKIE['email'] : 'email not found in cookie';
 $workspace_name = array_key_exists('workspace_name', $_COOKIE) ? $_COOKIE['workspace_name'] : 'workspace_name not found in cookie';
 
-$workspace_name = 'DB';
-
-setcookie('workspace_name',$_COOKIE['workspace_name']=$workspace_name);
-
+echo $email;
+echo $workspace_name;
 // Check if logged in
 $user = getUser($email);
 if (!empty($_POST['create-list']))
@@ -106,12 +104,14 @@ $user_workspaces = getAllOtherWorkspaces($email, $workspace_name);
   <meta name="description" content="include some description about your page">      
   <title>Database interfacing</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <button><a href="/cs4750/priorities/workspace.php">Go back to <?php echo $email?> Page</a></button>  
+  <button><a href="/cs4750/priorities/workspace-page.php">Go back to <?php echo $email?> Page</a></button>  
 </head>
 
 <body>
 <div class="container">
 <br/>
+<a href="/CS4750/priorities/profile.php" class="btn btn-info" role="button">Profile</a>
+<a href="/CS4750/priorities/logout.php" class="btn btn-warning" role="button">Logout</a>
 <h1>Groups</h1>
 <form action="workspace-page.php" method="post">
   <div class="form-group">

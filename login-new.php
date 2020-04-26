@@ -13,8 +13,9 @@ if (isset($_POST['phone'])){
 	$acc_phone = filter_var($_POST['phone'], FILTER_SANITIZE_STRING);
 	AddPhone($acc_email,$acc_phone);
 }
-setcookie('email',$_COOKIE['email']=$acc_email);
+setrawcookie('email',$_COOKIE['email']=$acc_email);
 
 // Redirect to items page
-header("Location: /CS4750/priorities/workspace.php");
+
+header("Location: /cs4750/priorities/workspace.php");
 exit();
