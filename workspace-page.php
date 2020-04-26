@@ -19,10 +19,8 @@ $msg = '';
 $email = array_key_exists('email', $_COOKIE) ? $_COOKIE['email'] : 'email not found in cookie';
 $workspace_name = array_key_exists('workspace_name', $_COOKIE) ? $_COOKIE['workspace_name'] : 'workspace_name not found in cookie';
 
-$workspace_name = 'DB';
-
-setcookie('workspace_name',$_COOKIE['workspace_name']=$workspace_name);
-
+echo $email;
+echo $workspace_name;
 // Check if logged in
 $user = getUser($email);
 if (!empty($_POST['create-list']))
