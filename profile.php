@@ -19,9 +19,6 @@ if (!empty($_POST['change-pass']))
 else if (!empty($_POST['new-number'])) {
 	addNumber($email, $_POST['number']);
 }
-else if (!empty($_POST['new-number'])) {
-	addNumber($email, $_POST['number']);
-}
 else if (!empty($_POST['remove-number'])){
 	deleteNumber($email, $_POST['phoneNum']);
 }
