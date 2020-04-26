@@ -14,16 +14,15 @@
     <?php
     // Import functions
     require('item-db.php');
+    require('utils.php');
 
     // Get information from cookie
     $email = array_key_exists('email', $_COOKIE) ? $_COOKIE['email'] : 'email not found in cookie';
     $workspace_name = array_key_exists('workspace_name', $_COOKIE) ? $_COOKIE['workspace_name'] : 'workspace_name not found in cookie';
     $list_ID = array_key_exists('list_ID', $_COOKIE) ? $_COOKIE['list_ID'] : 'list_ID not found in cookie';
 
-    echo 'email in the cookie: ', $email, '<br>';
-    echo 'list_ID in the cookie: ', $list_ID, '<br>';
-
-    echo '<br>';
+    // Check if logged in
+    $user = getUser($email);
     echo 'Show all items in a given list:', '<br>';
     $items = getItems($list_ID);
     ?>

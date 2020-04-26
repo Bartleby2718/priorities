@@ -13,5 +13,10 @@ function getUser($email)
     $statement->execute();
     $results = $statement->fetch();
     $statement->closecursor();
+    if (!is_array($results)) {
+        // Redirect to the login page if not logged in
+        header("Location: /cs4750/priorities/login.php");
+        die();
+    }
     return $results;
 }

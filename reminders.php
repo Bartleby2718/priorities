@@ -19,7 +19,6 @@
 
     // Get information from cookie
     $email = array_key_exists('email', $_COOKIE) ? $_COOKIE['email'] : 'email not found in cookie';
-    echo 'email in the cookie: ', $email, '<br>';
 
     $user = getUser($email);
     $reminders = getReminders($email);
