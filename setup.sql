@@ -88,11 +88,13 @@ FOR EACH ROW
     INSERT INTO workspace(email, workspace_name, description)
     VALUES (NEW.email, 'Personal', 'Any personal matters that need to be done');
 
-CREATE PROCEDURE new_user @email VARCHAR(255), @password VARCHAR(255), @fname VARCHAR(255), @lname VARCHAR(255)
-AS
-INSERT INTO users(email, password, first_name, last_name) 
-VALUES(@email, SHA2(@password, 256), @fname, @lname)
-GO;
+DELIMITER //
+CREATE PROCEDURE new_user (IN my_email VARCHAR(255), IN my_password VARCHAR(255), IN my_fname VARCHAR(255), IN my_lname VARCHAR(255)) 
+BEGIN 
+INSERT INTO users(email, my_password, first_name, last_name) VALUES(my_email, SHA2(my_password, 256), my_fname, my_lname); 
+END;
+//
+
 
 /* Below is the data used to populate the database*/
 
