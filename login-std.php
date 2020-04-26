@@ -13,8 +13,11 @@ echo $confirmed_email;
 if(! ($confirmed_email == false)){
 	setrawcookie('email',$_COOKIE['email']=$confirmed_email);
 // Redirect to items page
-	header("Location: /CS4750/priorities/workspace-page.php");
+
+
+	header("Location: /cs4750/priorities/workspace.php");
 	exit();
 }
-header("Location: /CS4750/priorities/login.php");
+header("Location: /cs4750/priorities/login.php");
+
 exit();

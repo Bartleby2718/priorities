@@ -83,10 +83,10 @@ reminder_ID INT PRIMARY KEY AUTO_INCREMENT,
 	);
 
 CREATE TRIGGER new_user_created 
-AFTER INSERT ON user
+AFTER INSERT ON users
 FOR EACH ROW 
     INSERT INTO workspace(email, workspace_name, description)
-    VALUES (NEW.email, 'Personal', 'Any personal matters that need to be done');
+    VALUES (NEW.email, 'primary', 'default workspace for shared lists');
 
 CREATE PROCEDURE new_user @email VARCHAR(255), @password VARCHAR(255), @fname VARCHAR(255), @lname VARCHAR(255)
 AS
