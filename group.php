@@ -17,7 +17,6 @@ $msg = '';
 $email = array_key_exists('email', $_COOKIE) ? $_COOKIE['email'] : 'email not found in cookie';
 $workspace_name = array_key_exists('workspace_name', $_COOKIE) ? $_COOKIE['workspace_name'] : 'workspace_name not found in cookie';
 $group_ID = array_key_exists('group_ID', $_COOKIE) ? $_COOKIE['group_ID'] : 'group_ID not found in cookie';
-echo $group_ID;
 
 // Check if logged in
 $user = getUser($email);
@@ -72,7 +71,7 @@ $lists = getAllListsRelevantGroup($group_ID);
   <meta name="description" content="include some description about your page">      
   <title>Group Page</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <button><a href="/cs4750/priorities/workspace-page.php">Go back to <?php echo $workspace_name?></a></button>
+  <button><a href="/cs4750/priorities/workspace-page.php">Go back to <?php echo $workspace_name?> Workspace</a></button>
 </head>
 
 <body>
