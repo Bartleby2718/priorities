@@ -68,21 +68,10 @@ if (!empty($_POST['action']))
 <head>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">  
 </head>
-
-<div class="center">
-  <div class="center">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Primary Workspace</h5>							
-        <p class="card-text"><?php echo $description ?></p>
-        <a href="workspace-page.php" class="btn btn-primary">Go to Workspace</a>
-      </div>
-    </div>
-  </div>
-  
-
+	
+	
 	<div class="container">
-	<h1>Workspace</h1>
+	<h1>Add Workspace</h1>
 	<form action="workspace.php" method="post">
 	  <div class="form-group">
 		Title:
@@ -97,7 +86,7 @@ if (!empty($_POST['action']))
 		<input type="submit" value="Create Workspace" class="btn btn-dark" name="workspace_submit" title="Create Workspace"/>	
 	  </div>
 	</form>
-	
+	<a href="reminders.php" class="btn btn-primary" style="background-color:green">Reminders</a>	
 	<div class="row">
 	  <div class="col-sm-6">
 		<?php 
@@ -112,7 +101,6 @@ if (!empty($_POST['action']))
 								<h5 class="card-title">'. $title .'</h5>							
 								<p class="card-text">'.  $card->desc .'</p>
 								<a href="workspace-page.php" class="btn btn-primary">Go to Workspace</a>
-								<!-- <a href="workspace-delete.php" name="delete_submit" class="btn btn-primary">Delete Workspace</a> -->
 								<input type="submit" value="delete" class="btn btn-dark" name="workspace_delete" title="Delete"/>	
 							</div>
 						</div>
@@ -123,7 +111,8 @@ if (!empty($_POST['action']))
 		}
 		?>	
 	</div>
-		 
+	
+ 
 		  
 	<?php	
 	class WorkspaceCard {
@@ -148,6 +137,11 @@ if (!empty($_POST['action']))
 		exit;
 	
 	} else if (isset($_POST['workspace_delete'])) {	
+	
+		$workspace_name = $_POST['workspace_name'];
+		// Run SQL query
+		deleteWorkspace($workspace_name);
+		
 		//print_r($_SESSION["workspace_cards"]);
 		if(isset($_SESSION["workspace_cards"])) {
 			if(count($_SESSION["workspace_cards"]) == 1) {
