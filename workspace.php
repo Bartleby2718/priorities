@@ -1,7 +1,7 @@
 <?php
 // include('connectdb.php');
-require('connect-db.php');
-require('users-db.php');
+require('connectdb.php');
+// require('users-db.php');
 require('workspace-db.php');
 //require('workspace-page.php');
 
@@ -18,16 +18,14 @@ session_start();
 
 <?php
 $msg = ''; 
-// grab user email from login processing form 
-// then I will have a string value, and use that email to display name on card 
-// this is a  parameter for getUserInfo_by_email() on line 60/63
-$email = 'up3f@virginia.edu';
-$workspace_name = 'DB';
+
+$email = array_key_exists('email', $_COOKIE) ? $_COOKIE['email'] : 'email not found in cookie';
+// $workspace_name = array_key_exists('workspace_name', $_COOKIE) ? $_COOKIE['workspace_name'] : 'workspace_name not found in cookie';
 $description = 'This is my primary workspace';
- $user_first_name = getAllUsers(); // will change the RHS
+// $user_first_name = getAllUsers(); // will change the RHS
 
 setcookie('email',$_COOKIE['email']=$email);
-setcookie('workspace_name',$_COOKIE['workspace_name']=$workspace_name);
+// setcookie('workspace_name',$_COOKIE['workspace_name']=$workspace_name);
 
 	if (!empty($_POST['create-workspace']))
 	{
@@ -50,15 +48,7 @@ if (!empty($_POST['action']))
    }
 }
 
-//echo $msg;
 
-//<?php $userinfo = getUserInfo_by_email($users);
-//echo $userinfo["first_name"];
-
-//<?php $workspace_info = getWorkspaceInfo_by_email($users);
-//echo $userinfo["description"];
-
-// newWorkspace($email, $workspace_name, $description = "")
 ?>
 
 
@@ -86,7 +76,8 @@ if (!empty($_POST['action']))
 		<input type="submit" value="Create Workspace" class="btn btn-dark" name="workspace_submit" title="Create Workspace"/>	
 	  </div>
 	</form>
-	<a href="reminders.php" class="btn btn-primary" style="background-color:green">Reminders</a>	
+	<a href="reminders.php" class="btn btn-primary" style="background-color:green">Reminders</a>
+	<a href="profile.php" class="btn btn-primary" style="background-color:pink">Profile</a>	
 	<div class="row">
 	  <div class="col-sm-6">
 		<?php 
@@ -131,7 +122,7 @@ if (!empty($_POST['action']))
 			$_SESSION["workspace_cards"] = array();
 		}
 		echo "<meta http-equiv='refresh' content='0'>";
-		//array_push($_SESSION["workspace_cards"], new WorkspaceCard($_POST["workspace_name"], $_POST["description"]));
+		
 		$_SESSION["workspace_cards"][$_POST["workspace_name"]] = new WorkspaceCard($_POST["workspace_name"], $_POST["description"]);
 		header( "Location: workspace.php" );
 		exit;
@@ -150,7 +141,7 @@ if (!empty($_POST['action']))
 				unset($_SESSION["workspace_cards"][$_POST["card_title"]]);
 			}
 		}
-		header( "Location: workspace.php" );
+		header( "Location: cs4750/priorities/workspace.php" );
 		exit;
 	}
 	?>
