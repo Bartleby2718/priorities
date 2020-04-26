@@ -46,5 +46,3 @@ VALUES(':email', ':phoneNumber');";
     $statement->closeCursor();
 	return; 	
 }
-
-?>

@@ -373,6 +373,3 @@ function SwitchListWorkspace($email, $old_workspace, $new_workspace, $list_ID)
 	
    return $results;
 }
-?>
-
-

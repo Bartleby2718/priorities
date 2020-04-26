@@ -37,7 +37,7 @@ function deleteNumber($email, $number)
     global $db;
     $query = "DELETE FROM user_phone WHERE email = :email AND phoneNumber=:number;";
     $statement = $db->prepare($query);
-	$statement->bindValue(':email', $email);
+    $statement->bindValue(':email', $email);
     $statement->bindValue(':number', $number);
     $statement->execute();
     $statement->closeCursor();
@@ -46,13 +46,11 @@ function deleteNumber($email, $number)
 //UPDATE PASSWORD
 function changePassword($email, $password)
 {
-	global $db;
+    global $db;
     $query = "UPDATE users SET password=SHA2(:password, 256) WHERE email=:email;";
     $statement = $db->prepare($query);
     $statement->bindValue(':email', $email);
     $statement->bindValue(':password', $password);
     $statement->execute();
     $statement->closeCursor();
-	
 }
-

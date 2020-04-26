@@ -111,5 +111,3 @@ function deleteUser($email)
    $statement->execute();
    $statement->closeCursor();
 }
-?>
-

@@ -124,5 +124,3 @@ function deleteWorkspace($workspace_name, $email)
    $statement->execute();
    $statement->closeCursor();
 }
-?>
-

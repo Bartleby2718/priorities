@@ -9,11 +9,11 @@ $acc_pass = $_POST['password'];
 $acc_fname = $_POST['fname'];
 $acc_lname = $_POST['lname'];
 CreateUser($acc_email, $acc_pass, $acc_fname, $acc_lname);
-if (isset($_POST['phone'])){
+if (isset($_POST['phone'])) {
 	$acc_phone = filter_var($_POST['phone'], FILTER_SANITIZE_STRING);
-	AddPhone($acc_email,$acc_phone);
+	AddPhone($acc_email, $acc_phone);
 }
-setrawcookie('email',$_COOKIE['email']=$acc_email);
+setrawcookie('email', $_COOKIE['email'] = $acc_email);
 
 // Redirect to items page
 

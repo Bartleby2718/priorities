@@ -14,7 +14,7 @@ function getItems($list_ID)
     $statement->execute();
     $results = $statement->fetchAll();
     $statement->closeCursor();
-	
+
     return $results;
 }
 
