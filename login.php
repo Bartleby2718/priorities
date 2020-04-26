@@ -1,5 +1,4 @@
 <?php
-
 // include('connectdb.php');
 require('login-db.php');
 
@@ -9,6 +8,14 @@ require('login-db.php');
 // 3. bind value, execute
 // 4. use result(s) 
 // 5. close connection
+if(array_key_exists('email', $_COOKIE)){
+	
+
+	header("Location: /cs4750/priorities/workspace-page.php");
+	exit();
+}
+
+
 ?>
 
 
@@ -83,6 +90,5 @@ require('login-db.php');
 
 // empty() accepts a variable argument and
 // returns TRUE if its value is an empty string, zero, NULL or FALSE
-
 
 ?>
