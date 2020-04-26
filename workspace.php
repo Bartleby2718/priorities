@@ -86,6 +86,7 @@ $workspaces = getWorkspaceInfo_by_email($email);
         <a href="reminders.php" class="btn btn-primary" style="background-color:green">Reminders</a>
         <a href="profile.php" class="btn btn-primary" style="background-color:pink">Profile</a>
         <a href="/cs4750/priorities/logout.php" class="btn btn-warning" role="button">Logout</a>
+        <a href="assigned.php" class="btn btn-secondary">Items assigned to me</a>
         <div class="row">
             <div class="col-sm-6">
                 <h4>Workspaces for <?php echo $email ?></h4>
