@@ -9,7 +9,7 @@ require('connectdb.php');
 function getNumbers($email)
 {
     global $db;
-    $query = "SELECT phoneNumber FROM user_phone WHERE email=:email;";
+    $query = "SELECT phoneNumber FROM user_phone WHERE email=:email ORDER BY email;";
     $statement = $db->prepare($query);
     $statement->bindValue(':email', $email);
     $statement->execute();

@@ -10,7 +10,7 @@ function getReminders($email)
     global $db;
     $query = "SELECT * FROM reminder as r
               INNER JOIN item as i ON r.item_ID = i.item_ID
-              WHERE email=:email;";
+              WHERE email=:email ORDER BY r.item_ID;";
     $statement = $db->prepare($query);
     $statement->bindValue(':email', $email);
     $statement->execute();
@@ -24,7 +24,7 @@ function getRemindableItems($email)
 {
     global $db;
     // TODO: Restrict to the items that the user belongs?
-    $query = "SELECT * FROM item;";
+    $query = "SELECT * FROM item ORDER BY item_ID;";
     $statement = $db->prepare($query);
     $statement->execute();
     $results = $statement->fetchAll();
