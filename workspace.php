@@ -4,6 +4,7 @@ require('connectdb.php');
 // require('users-db.php');
 require('workspace-db.php');
 //require('workspace-page.php');
+require('utils.php');
 
 // steps: 
 // 1. establish a connection (configure: load driver, specify host, specify username/password)
@@ -19,7 +20,8 @@ session_start();
 <?php
 $msg = '';
 
-$email = $_COOKIE['email'];
+$email = array_key_exists('email', $_COOKIE) ? $_COOKIE['email'] : 'email not found in cookie';
+$user = getUser($email);
 
 $description = 'This is my primary workspace';
 
@@ -98,26 +100,26 @@ $workspaces = getWorkspaceInfo_by_email($email);
                         <th>&nbsp;</th>
                     </tr>
                     <?php foreach ($workspaces as $w) : ?>
-                    <tr>
-                        <td>
-                            <?php echo $w['workspace_name']; ?>
-                        </td>
-                        <td>
-                            <?php echo $w['description']; ?>
-                        </td>
-                        <td>
-                            <form action="workspace.php" method="post">
-                                <input type="submit" value="View Workspace" name="action" class="btn btn-primary" />
-                                <input type="hidden" name="workspace_name" value="<?php echo $w['workspace_name'] ?>" />
-                            </form>
-                        </td>
-                        <td>
-                            <form action="workspace.php" method="post">
-                                <input type="submit" value="Remove Workspace" name="action" class="btn btn-primary" />
-                                <input type="hidden" name="workspace_name" value="<?php echo $w['workspace_name'] ?>" />
-                            </form>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>
+                                <?php echo $w['workspace_name']; ?>
+                            </td>
+                            <td>
+                                <?php echo $w['description']; ?>
+                            </td>
+                            <td>
+                                <form action="workspace.php" method="post">
+                                    <input type="submit" value="View Workspace" name="action" class="btn btn-primary" />
+                                    <input type="hidden" name="workspace_name" value="<?php echo $w['workspace_name'] ?>" />
+                                </form>
+                            </td>
+                            <td>
+                                <form action="workspace.php" method="post">
+                                    <input type="submit" value="Remove Workspace" name="action" class="btn btn-primary" />
+                                    <input type="hidden" name="workspace_name" value="<?php echo $w['workspace_name'] ?>" />
+                                </form>
+                            </td>
+                        </tr>
                     <?php endforeach; ?>
                 </table>
 
