@@ -20,14 +20,10 @@ session_start();
 $msg = ''; 
 
 $email = $_COOKIE['email'];
-// $workspace_name = array_key_exists('workspace_name', $_COOKIE) ? $_COOKIE['workspace_name'] : 'workspace_name not found in cookie';
+
 $description = 'This is my primary workspace';
-// $user_first_name = getAllUsers(); // will change the RHS
-// if ($_COOKIE['email'] == ""){
-// 	header('Location:/cs4750/priorities/login.php');
-// }
+
 setrawcookie('email',$_COOKIE['email']=$email);
-// setcookie('workspace_name',$_COOKIE['workspace_name']=$workspace_name);
 
 	if (!empty($_POST['create_workspace']))
 	{
@@ -44,7 +40,7 @@ if (!empty($_POST['action']))
 {
    if ($_POST['action'] == "View Workspace") {
 	   if (!empty($_POST['workspace_name'])){
-		setcookie("workspace_name",$_POST['workspace_name']);
+		setrawcookie("workspace_name",$_POST['workspace_name']);
 		header('Location: /cs4750/priorities/workspace-page.php');
 	   }
    }  
