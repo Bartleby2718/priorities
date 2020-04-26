@@ -16,5 +16,5 @@ if(! ($confirmed_email == false)){
 	header("Location: /priorities/workspace.php");
 	exit();
 }
-header("Location: /priorities/login.php");
+header("Location: CS4750/priorities/login.php");
 exit();
