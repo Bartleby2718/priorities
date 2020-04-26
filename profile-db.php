@@ -36,7 +36,8 @@ function deleteNumber($email, $number)
 {
     global $db;
     $query = "DELETE FROM user_phone WHERE email = :email AND phoneNumber=:number;";
-    $statement->bindValue(':email', $email);
+    $statement = $db->prepare($query);
+	$statement->bindValue(':email', $email);
     $statement->bindValue(':number', $number);
     $statement->execute();
     $statement->closeCursor();

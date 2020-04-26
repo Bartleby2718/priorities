@@ -16,5 +16,6 @@ if (isset($_POST['phone'])){
 setrawcookie('email',$_COOKIE['email']=$acc_email);
 
 // Redirect to items page
+
 header("Location: /cs4750/priorities/workspace.php");
 exit();
