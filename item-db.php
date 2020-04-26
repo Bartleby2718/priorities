@@ -13,7 +13,8 @@ function getItems($list_ID)
     $statement->bindValue(':list_ID', $list_ID);
     $statement->execute();
     $results = $statement->fetchAll();
-    $statement->closecursor();
+    $statement->closeCursor();
+	
     return $results;
 }
 
