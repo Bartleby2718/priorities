@@ -1,3 +1,6 @@
+-------------------------------------------------------------------------------
+-- Part 1: Run in http://localhost/phpmyadmin/server_databases.php
+-------------------------------------------------------------------------------
 CREATE DATABASE priorities;
 USE priorities;
 
@@ -83,10 +86,10 @@ reminder_ID INT PRIMARY KEY AUTO_INCREMENT,
 	);
 
 CREATE TRIGGER new_user_created 
-AFTER INSERT ON user
+AFTER INSERT ON users
 FOR EACH ROW 
     INSERT INTO workspace(email, workspace_name, description)
-    VALUES (NEW.email, 'Personal', 'Any personal matters that need to be done');
+    VALUES (NEW.email, 'primary', 'Any personal matters that need to be done');
 
 DELIMITER //
 CREATE PROCEDURE new_user (IN my_email VARCHAR(255), IN my_password VARCHAR(255), IN my_fname VARCHAR(255), IN my_lname VARCHAR(255)) 
@@ -95,17 +98,21 @@ INSERT INTO users(email, password, first_name, last_name) VALUES(my_email, SHA2(
 END;
 //
 
+-- -----------------------------------------------------------------------------
+-- Part 2: Run in http://localhost/phpmyadmin/db_sql.php?db=priorities
+-- Below is the data used to populate the database
+-- -----------------------------------------------------------------------------
 
-CALL new_user('jp9vd@virginia', SHA2('jppassword', 256), 'Jihoon', 'Park');
-CALL new_user('jam3gw@virginia', SHA2('jmpassword', 256), 'Jake', 'Moses');
-CALL new_user('mes2hu@virginia', SHA2('mspassword', 256), 'Mia', 'Shaker');
-CALL new_user('sa2dt@virginia', SHA2('sapassword', 256), 'Sonia', 'Aggarwal');
-CALL new_user('up3f@virginia', SHA2('uppassword', 256), 'Upsorn', 'Praphamontripong');
-CALL new_user('rcr4eh@virginia', SHA2('rrpassword', 256), 'Ryan', 'Ritzo');
+CALL new_user('jp9vd@virginia.edu', 'jppassword', 'Jihoon', 'Park');
+CALL new_user('jam3gw@virginia.edu', 'jmpassword', 'Jake', 'Moses');
+CALL new_user('mes2hu@virginia.edu', 'mspassword', 'Mia', 'Shaker');
+CALL new_user('sa2dt@virginia.edu', 'sapassword', 'Sonia', 'Aggarwal');
+CALL new_user('up3f@virginia.edu', 'uppassword', 'Upsorn', 'Praphamontripong');
+CALL new_user('rcr4eh@virginia.edu', 'rrpassword', 'Ryan', 'Ritzo');
 
- -------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 -- User_phone Table
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 INSERT INTO
   user_phone (email, phoneNumber)
 values
@@ -116,9 +123,9 @@ values
   -- Some users have multiple phone numbers
   ('up3f@virginia.edu', '5555555555'),
   ('up3f@virginia.edu', '6666666666');
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 -- workspace Table
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 INSERT INTO
   workspace (email, workspace_name, description)
 VALUES
@@ -140,9 +147,9 @@ VALUES
   ('up3f@virginia.edu', 'DB', 'MoWe330'),
   ('up3f@virginia.edu', 'Web PL', 'TuTh200');
  
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 -- List Table
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 INSERT INTO
   lists(list_ID, description, title)
 VALUES
@@ -164,9 +171,9 @@ VALUES
   (NULL, NULL, 'slangs'),
   (NULL, NULL, 'textspeak');
  
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 -- group Table
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 INSERT INTO
   groups (
     group_ID,
@@ -192,9 +199,9 @@ values
     'will write a post at some point'
   );
  
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 -- workspace_list_connection Table
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 INSERT INTO
   workspace_list_connection (email, workspace_name, list_ID)
 VALUES
@@ -210,9 +217,9 @@ VALUES
   ('up3f@virginia.edu', 'DB', 10),
   ('up3f@virginia.edu', 'Personal', 11);
  
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 -- group_list_connection Table
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 INSERT INTO
   group_list_connection (list_ID, group_ID)
 VALUES
@@ -221,9 +228,9 @@ VALUES
   (14, 1),
   (15, 1);
  
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 -- item Table
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 INSERT INTO
   item(
     item_ID,
@@ -257,9 +264,9 @@ values
     NULL
   );
  
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 -- assigned_to Table
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 INSERT INTO
   item_assignment_connection (email, item_ID)
 VALUES
@@ -267,9 +274,9 @@ VALUES
   ('sa2dt@virginia.edu', 2),
   ('sa2dt@virginia.edu', 3);
  
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 -- reminder Table
--------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------
 INSERT INTO
   reminder (
     reminder_ID,
@@ -286,7 +293,3 @@ VALUES
     '2020-05-05 08:00:00',
     'use this word when saying goodbye'
   );
-
-
-/* Below is the data used to populate the database*/
-
