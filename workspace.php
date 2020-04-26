@@ -81,8 +81,8 @@ if (!empty($_POST['action']))
 	<div class="row">
 	  <div class="col-sm-6">
 		<?php 
-		if(array_key_exists("workspace_cards", $_SESSION)) {
-			foreach($_SESSION["workspace_cards"] as $title => $card) {
+		if(isset($_COOKIE["workspace_cards"])) {
+			foreach(json_decode($_COOKIE["workspace_cards"], true) as $title => $card) {
 				echo '<form action="workspace.php" method="post">
 						<div class="form-group">
 							<input type="hidden" name="card_title" value='.$title.' />
@@ -90,7 +90,7 @@ if (!empty($_POST['action']))
 						<div class="card">
 							<div class="card-body">
 								<h5 class="card-title">'. $title .'</h5>							
-								<p class="card-text">'.  $card->desc .'</p>
+								<p class="card-text">'. $card["desc"] .'</p>
 								<a href="workspace-page.php" class="btn btn-primary">Go to Workspace</a>
 								<input type="submit" value="delete" class="btn btn-dark" name="workspace_delete" title="Delete"/>	
 							</div>
@@ -114,34 +114,36 @@ if (!empty($_POST['action']))
 			$this->title = $title;
 			$this->desc = $desc;
 		}
-		
 	}
 	
 	if (isset($_POST['workspace_submit'])) {
-		if(!array_key_exists("workspace_cards", $_SESSION)) {
-			$_SESSION["workspace_cards"] = array();
+		if(!array_key_exists("workspace_cards", $_COOKIE)) {
+			setcookie("workspace_cards", json_encode(array()), time() + 3600);
 		}
-		echo "<meta http-equiv='refresh' content='0'>";
-		
-		$_SESSION["workspace_cards"][$_POST["workspace_name"]] = new WorkspaceCard($_POST["workspace_name"], $_POST["description"]);
+		$temp = json_decode($_COOKIE["workspace_cards"], true);
+		$temp[$_POST["workspace_name"]] = new WorkspaceCard($_POST["workspace_name"], $_POST["description"]);
+		setcookie("workspace_cards", json_encode($temp), time() + 3600);
 		header( "Location: workspace.php" );
 		exit;
 	
 	} else if (isset($_POST['workspace_delete'])) {	
-	
-		$workspace_name = $_POST['workspace_name'];
-		// Run SQL query
-		deleteWorkspace($workspace_name);
 		
-		//print_r($_SESSION["workspace_cards"]);
-		if(isset($_SESSION["workspace_cards"])) {
-			if(count($_SESSION["workspace_cards"]) == 1) {
-				unset($_SESSION["workspace_cards"]);
-			} else {
-				unset($_SESSION["workspace_cards"][$_POST["card_title"]]);
+		
+		if(isset($_COOKIE["workspace_cards"])) {
+			
+			// Run SQL query
+			deleteWorkspace($_POST["card_title"]);
+			
+			$temp = json_decode($_COOKIE["workspace_cards"], true);
+			if(count($temp) == 1) {
+				setcookie("workspace_cards", json_encode(array()), time() - 3600);
+				//unset($_COOKIE["workspace_cards"]);
+			} else {	
+				unset($temp[$_POST["card_title"]]);
+				setcookie("workspace_cards", json_encode($temp), time() + 3600);
 			}
 		}
-		header( "Location: cs4750/priorities/workspace.php" );
+		header( "Location: workspace.php" );
 		exit;
 	}
 	?>
