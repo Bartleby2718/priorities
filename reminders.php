@@ -25,6 +25,7 @@
     $items = getRemindableItems($email);
     ?>
 
+    <button><a href="workspace.php">Go back to dashboard</a></button>
     <h4>Reminders for <?php echo $user['first_name']; ?></h4>
     <table class="table table-striped table-bordered" id="myTable">
         <!-- Headers -->
@@ -38,39 +39,39 @@
         </tr>
         <!-- Existing reminders -->
         <?php foreach ($reminders as $reminder) : ?>
-        <tr>
-            <form action="reminders-update.php" method="post">
-                <td class="text-center">
-                    <?php echo $reminder['reminder_ID']; ?>
-                </td>
-                <td class="text-center">
-                    <select class="form-control" name="item_ID">
-                        <option disabled selected value>Select an item</option>
-                        <?php foreach ($items as $item) : ?>
-                        <option value="<?php echo $item['item_ID'] ?>" <?php echo $item['item_ID'] === $reminder['item_ID'] ? "selected" : ""; ?>><?php echo  $item['description'] ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </td>
-                <td>
-                    <input type='date' name='date_time' value="<?php echo Date('Y-m-d', strtotime($reminder['date_time'])); ?>" class="form-control" required />
-                </td>
-                <td>
-                    <input type="text" name="message" placeholder="What do you want us to tell you?" class="form-control" value="<?php echo $reminder['message'] ?>" required>
-                </td>
-                <td class="text-center">
-                    <input type="hidden" name="reminder_ID" value="<?php echo $reminder['reminder_ID'] ?>" />
-                    <input type="hidden" name="email" value="<?php echo $email ?>" />
-                    <input type="submit" value="Update" class="btn btn-info" />
-                </td>
-            </form>
-            <td class="text-center">
-                <form action="reminders-delete.php" method="post">
-                    <input type="hidden" name="reminder_ID" value="<?php echo $reminder['reminder_ID'] ?>" />
-                    <input type="hidden" name="email" value="<?php echo $email ?>" />
-                    <input type="submit" value="Remove" class="btn btn-danger" />
+            <tr>
+                <form action="reminders-update.php" method="post">
+                    <td class="text-center">
+                        <?php echo $reminder['reminder_ID']; ?>
+                    </td>
+                    <td class="text-center">
+                        <select class="form-control" name="item_ID">
+                            <option disabled selected value>Select an item</option>
+                            <?php foreach ($items as $item) : ?>
+                                <option value="<?php echo $item['item_ID'] ?>" <?php echo $item['item_ID'] === $reminder['item_ID'] ? "selected" : ""; ?>><?php echo  $item['description'] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </td>
+                    <td>
+                        <input type='date' name='date_time' value="<?php echo Date('Y-m-d', strtotime($reminder['date_time'])); ?>" class="form-control" required />
+                    </td>
+                    <td>
+                        <input type="text" name="message" placeholder="What do you want us to tell you?" class="form-control" value="<?php echo $reminder['message'] ?>" required>
+                    </td>
+                    <td class="text-center">
+                        <input type="hidden" name="reminder_ID" value="<?php echo $reminder['reminder_ID'] ?>" />
+                        <input type="hidden" name="email" value="<?php echo $email ?>" />
+                        <input type="submit" value="Update" class="btn btn-info" />
+                    </td>
                 </form>
-            </td>
-        </tr>
+                <td class="text-center">
+                    <form action="reminders-delete.php" method="post">
+                        <input type="hidden" name="reminder_ID" value="<?php echo $reminder['reminder_ID'] ?>" />
+                        <input type="hidden" name="email" value="<?php echo $email ?>" />
+                        <input type="submit" value="Remove" class="btn btn-danger" />
+                    </form>
+                </td>
+            </tr>
         <?php endforeach; ?>
         <!-- New reminder -->
         <form action="reminders-create.php" method="post">
@@ -83,7 +84,7 @@
                     <select class="form-control" name="item_ID">
                         <option disabled selected value>Select an item</option>
                         <?php foreach ($items as $item) : ?>
-                        <option value="<?php echo $item['item_ID'] ?>"><?php echo $item['description'] ?></option>
+                            <option value="<?php echo $item['item_ID'] ?>"><?php echo $item['description'] ?></option>
                         <?php endforeach; ?>
                     </select>
                 </td>
