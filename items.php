@@ -25,11 +25,11 @@
     $user = getUser($email);
     // Check if list_ID is valid
     $list = getList($list_ID);
-    echo 'Show all items in a given list:', '<br>';
     $items = getItems($list_ID);
     ?>
 
-    <h4>Items for List ID <?php echo $list_ID; ?></h4>
+    <button><a href="workspace.php">Go back to dashboard</a></button>
+    <h4>Items for List <?php echo $list['title']; ?></h4>
     <table class="table table-striped table-bordered" id="myTable">
         <!-- Headers -->
         <tr class="text-center">
@@ -44,48 +44,48 @@
         </tr>
         <!-- Existing items -->
         <?php foreach ($items as $item) : ?>
-        <tr>
-            <form action="items-update.php" method="post">
-                <td class="text-center">
-                    <?php echo $item['item_ID']; ?>
-                </td>
-                <td>
-                    <input type="text" name="description" value="<?php echo $item['description']; ?>" class="form-control" />
-                </td>
-                <td class="text-center">
-                    <?php echo $item['date_time_created']; ?>
-                </td>
-                <td>
-                    <!-- no due date -->
-                    <?php if ($item['date_time_due'] === null) : ?>
-                    <input type='date' name='date_time_due'>
-                    <!-- has due date -->
-                    <?php else :
+            <tr>
+                <form action="items-update.php" method="post">
+                    <td class="text-center">
+                        <?php echo $item['item_ID']; ?>
+                    </td>
+                    <td>
+                        <input type="text" name="description" value="<?php echo $item['description']; ?>" class="form-control" />
+                    </td>
+                    <td class="text-center">
+                        <?php echo $item['date_time_created']; ?>
+                    </td>
+                    <td>
+                        <!-- no due date -->
+                        <?php if ($item['date_time_due'] === null) : ?>
+                            <input type='date' name='date_time_due'>
+                            <!-- has due date -->
+                        <?php else :
                             $formatted_date = Date('Y-m-d', strtotime($item['date_time_due']));
                             echo
                                 '<input type="date" name="date_time_due" value="',
                                 $formatted_date,
                                 '" class="form-control"';
                         endif; ?>
+                    </td>
+                    <td class="text-center">
+                        <input type="hidden" name="item_ID" value="<?php echo $item['item_ID'] ?>" />
+                        <input type="submit" value="Update" class="btn btn-info" />
+                    </td>
+                </form>
+                <td class="text-center">
+                    <form action="items-delete.php" method="post">
+                        <input type="hidden" name="item_ID" value="<?php echo $item['item_ID'] ?>" />
+                        <input type="submit" value="Remove" class="btn btn-danger" />
+                    </form>
                 </td>
                 <td class="text-center">
-                    <input type="hidden" name="item_ID" value="<?php echo $item['item_ID'] ?>" />
-                    <input type="submit" value="Update" class="btn btn-info" />
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#assignModal" data-item="<?php echo $item['item_ID']; ?>">Assign</button>
                 </td>
-            </form>
-            <td class="text-center">
-                <form action="items-delete.php" method="post">
-                    <input type="hidden" name="item_ID" value="<?php echo $item['item_ID'] ?>" />
-                    <input type="submit" value="Remove" class="btn btn-danger" />
-                </form>
-            </td>
-            <td class="text-center">
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#assignModal" data-item="<?php echo $item['item_ID']; ?>">Assign</button>
-            </td>
-            <td class="text-center">
-                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#unassignModal" data-item="<?php echo $item['item_ID']; ?>">Unassign</button>
-            </td>
-        </tr>
+                <td class="text-center">
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#unassignModal" data-item="<?php echo $item['item_ID']; ?>">Unassign</button>
+                </td>
+            </tr>
         <?php endforeach; ?>
         <!-- New item -->
         <form action="items-create.php" method="post">
@@ -183,33 +183,33 @@
 
     <!-- Assignment -->
     <script>
-    $('#assignModal').on('show.bs.modal', function(event) {
-        let button = $(event.relatedTarget) // Button that triggered the modal
-        let item_ID = button.data('item');
-        let modal = $(this)
-        $('#item-to-assign').val(item_ID);
-    })
+        $('#assignModal').on('show.bs.modal', function(event) {
+            let button = $(event.relatedTarget) // Button that triggered the modal
+            let item_ID = button.data('item');
+            let modal = $(this)
+            $('#item-to-assign').val(item_ID);
+        })
     </script>
 
     <!-- Unassignment -->
     <script>
-    $('#unassignModal').on('show.bs.modal', function(event) {
-        let button = $(event.relatedTarget) // Button that triggered the modal
-        let item_ID = button.data('item');
-        let modal = $(this);
-        jQuery.get("item-assignees.php", {
-            'item_ID': item_ID,
-        }, function(data, status) {
-            $('#assignees').empty();
-            $.each(data.assignments, function(i, record) {
-                $('#assignees').append($('<option>', {
-                    value: record.email,
-                    text: record.email
-                }));
+        $('#unassignModal').on('show.bs.modal', function(event) {
+            let button = $(event.relatedTarget) // Button that triggered the modal
+            let item_ID = button.data('item');
+            let modal = $(this);
+            jQuery.get("item-assignees.php", {
+                'item_ID': item_ID,
+            }, function(data, status) {
+                $('#assignees').empty();
+                $.each(data.assignments, function(i, record) {
+                    $('#assignees').append($('<option>', {
+                        value: record.email,
+                        text: record.email
+                    }));
+                });
             });
-        });
-        $('#item-to-unassign').val(item_ID);
-    })
+            $('#item-to-unassign').val(item_ID);
+        })
     </script>
 </body>
 

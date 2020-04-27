@@ -89,8 +89,8 @@ $workspaces = getWorkspaceInfo_by_email($email);
         </form>
         <a href="reminders.php" class="btn btn-primary" style="background-color:green">Reminders</a>
         <a href="profile.php" class="btn btn-primary" style="background-color:pink">Profile</a>
-        <a href="logout.php" class="btn btn-warning" role="button">Logout</a>
         <a href="assigned.php" class="btn btn-secondary">Items assigned to me</a>
+        <a href="logout.php" class="btn btn-warning" role="button">Logout</a>
         <div class="row">
             <div class="col-sm-6">
                 <h4>Workspaces for <?php echo $email ?></h4>
@@ -117,7 +117,7 @@ $workspaces = getWorkspaceInfo_by_email($email);
                             </td>
                             <td>
                                 <form action="workspace.php" method="post">
-                                    <input type="submit" value="Remove Workspace" name="action" class="btn btn-primary" />
+                                    <input type="submit" value="Remove Workspace" name="action" class="btn btn-danger" />
                                     <input type="hidden" name="workspace_name" value="<?php echo $w['workspace_name'] ?>" />
                                 </form>
                             </td>

@@ -125,8 +125,8 @@ $lists = getAllListsRelevantGroup($group_ID);
                     </td>
                     <td>
                         <form action="workspace-page.php" method="post">
-                            <input type="submit" value="Share List" name="action" class="btn btn-info" />
-                            <select name="user_select">
+                            <input type="submit" value="Share List with:" name="action" class="btn btn-info" />
+                            <select name="user_select" class="form-control">
                                 <?php foreach (getUserEmails($list['list_ID']) as $user) : ?>
                                     <option value="<?php echo $user['email'] ?>"><?php echo $user['email'] ?></option>
                                 <?php endforeach; ?>
@@ -136,7 +136,7 @@ $lists = getAllListsRelevantGroup($group_ID);
                     </td>
                     <td>
                         <form action="group.php" method="post">
-                            <input type="submit" value="Move Back to Workspace" name="action" class="btn btn-danger" />
+                            <input type="submit" value="Move Back to Workspace" name="action" class="btn btn-secondary" />
                             <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />
                         </form>
                     </td>
