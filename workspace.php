@@ -64,13 +64,15 @@ $workspaces = getWorkspaceInfo_by_email($email);
 
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Dashboard</title>
 </head>
 
 <body>
     <div class="container">
         <br />
 
-        <h1>Add Workspace</h1>
+        <h1>Dashboard</h1>
+        <h4>Add Workspace</h4>
         <form action="workspace.php" method="post">
             <div class="form-group">
                 Title:

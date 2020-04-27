@@ -34,7 +34,7 @@ if (!empty($_POST['change-pass'])) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <!-- Simple CSS file to verify that it works -->
     <link rel="stylesheet" href="index.css" />
-    <button><a href="workspace.php">Go back to <?php echo $email ?> Page</a></button>
+    <button><a href="workspace.php">Go back to dashboard</a></button>
 
 </head>
 

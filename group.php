@@ -65,7 +65,7 @@ $lists = getAllListsRelevantGroup($group_ID);
     <meta name="description" content="include some description about your page">
     <title>Group Page</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <button><a href="workspace-page.php">Go back to <?php echo $workspace_name ?> Workspace</a></button>
+    <button><a href="workspace-page.php">Go back to dashboard</a></button>
 </head>
 
 <body>
