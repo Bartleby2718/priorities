@@ -5,6 +5,10 @@
 require('profile-db.php');
 
 // Get information from cookie
+if (array_key_exists('email', $_COOKIE)) {
+    header("Location: login.php");
+    exit();
+}
 $email = array_key_exists('email', $_COOKIE) ? $_COOKIE['email'] : 'email not found in cookie';
 
 $numbers = getNumbers($email);
