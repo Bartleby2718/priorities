@@ -208,7 +208,7 @@ $user_workspaces = getAllOtherWorkspaces($email, $workspace_name);
                         <form action="workspace-page.php" method="post">
                             <input type="submit" value="Share List" name="action" class="btn btn-info" />
                             <select name="user_select">
-                                <?php foreach (getUserEmails($list['list_ID']) as $user) : ?>
+                                <?php foreach (getUserEmails($list['list_ID'], $email) as $user) : ?>
                                     <option value="<?php echo $user['email'] ?>"><?php echo $user['email'] ?></option>
                                 <?php endforeach; ?>
 

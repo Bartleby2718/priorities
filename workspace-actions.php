@@ -318,18 +318,19 @@ function MoveFromGrouptoList($list_ID, $group_ID, $workspace_name, $email)
    $statement->closeCursor();
 }
 
-function getUserEmails($list_ID)
+function getUserEmails($list_ID, $email)
 {
    global $db;
 
    $query = "SELECT email FROM users
-             WHERE email NOT IN(
+             WHERE email != :email AND email NOT IN(
                 SELECT DISTINCT email FROM workspace_list_connection
                 WHERE list_ID = :list_ID
                 )
              ORDER BY email;";
    $statement = $db->prepare($query);
    $statement->bindValue(':list_ID', $list_ID);
+   $statement->bindValue(':email', $email);
    $statement->execute();
 
    // fetchAll() returns an array for all of the rows in the result set

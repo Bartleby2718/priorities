@@ -65,7 +65,7 @@ $lists = getAllListsRelevantGroup($group_ID);
     <meta name="description" content="include some description about your page">
     <title>Group Page</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <button><a href="workspace-page.php">Go back to dashboard</a></button>
+    <button><a href="workspace-page.php">Go back to workspace: <?php echo $workspace_name?></a></button>
 </head>
 
 <body>
@@ -127,7 +127,7 @@ $lists = getAllListsRelevantGroup($group_ID);
                         <form action="workspace-page.php" method="post">
                             <input type="submit" value="Share List with:" name="action" class="btn btn-info" />
                             <select name="user_select" class="form-control">
-                                <?php foreach (getUserEmails($list['list_ID']) as $user) : ?>
+                                <?php foreach (getUserEmails($list['list_ID'], $email) as $user) : ?>
                                     <option value="<?php echo $user['email'] ?>"><?php echo $user['email'] ?></option>
                                 <?php endforeach; ?>
                             </select>

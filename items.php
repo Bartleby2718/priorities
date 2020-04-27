@@ -29,7 +29,7 @@
     ?>
 
     <button><a href="workspace.php">Go back to dashboard</a></button>
-    <h4>Items for List <?php echo $list['title']; ?></h4>
+    <h4>Items for List: <?php echo $list['title']; ?></h4>
     <table class="table table-striped table-bordered" id="myTable">
         <!-- Headers -->
         <tr class="text-center">
