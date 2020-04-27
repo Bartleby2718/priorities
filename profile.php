@@ -69,7 +69,7 @@ if (!empty($_POST['change-pass'])) {
             <form action="profile.php" method="post">
                 <tr>
                     <td>
-                        <input type="text" class="form-control" name="number" placeholder="Add a phone number" required />
+                        <input type="text" class="form-control" name="number" placeholder="Add a phone number" minlength="10" maxlength="10" required />
                     </td>
                     <td>
                         <input type="submit" value="Add Number" name="new-number" class="btn btn-dark" />
