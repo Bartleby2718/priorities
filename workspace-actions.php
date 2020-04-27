@@ -243,7 +243,7 @@ function removeListGroup($list_ID, $group_ID)
              WHERE list_ID=:list_ID AND group_ID=:group_ID;";
    $statement = $db->prepare($query);
    $statement->bindValue(':list_ID', $list_ID);
-   $statement->bindValue(':workspace_name', $group_ID); //temporary
+   $statement->bindValue(':group_ID', $group_ID); //temporary
    $statement->execute();
 
    $query = "SELECT * FROM lists, group_list_connection
