@@ -11,15 +11,15 @@ $numbers = getNumbers($email);
 
 if (!empty($_POST['change-pass'])) {
     changePassword($email, $_POST['password']);
-    header("Location: /cs4750/priorities/profile.php");
+    header("Location: profile.php");
     exit();
 } else if (!empty($_POST['new-number'])) {
     addNumber($email, $_POST['number']);
-    header("Location: /cs4750/priorities/profile.php");
+    header("Location: profile.php");
     exit();
 } else if (!empty($_POST['remove-number'])) {
     deleteNumber($email, $_POST['phoneNum']);
-    header("Location: /cs4750/priorities/profile.php");
+    header("Location: profile.php");
     exit();
 }
 
@@ -34,7 +34,7 @@ if (!empty($_POST['change-pass'])) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <!-- Simple CSS file to verify that it works -->
     <link rel="stylesheet" href="index.css" />
-    <button><a href="/cs4750/priorities/workspace.php">Go back to <?php echo $email ?> Page</a></button>
+    <button><a href="workspace.php">Go back to <?php echo $email ?> Page</a></button>
 
 </head>
 
@@ -52,18 +52,18 @@ if (!empty($_POST['change-pass'])) {
             </tr>
             <!-- Existing items -->
             <?php foreach ($numbers as $one_number) :  ?>
-            <tr>
-                <td>
-                    <?php echo $one_number['phoneNumber']; ?>
-                </td>
+                <tr>
+                    <td>
+                        <?php echo $one_number['phoneNumber']; ?>
+                    </td>
 
-                <td>
-                    <form action="profile.php" method="post">
-                        <input type="hidden" name="phoneNum" value="<?php echo $one_number['phoneNumber'] ?>" />
-                        <input type="submit" value="Remove" name="remove-number" class="btn btn-danger" />
-                    </form>
-                </td>
-            </tr>
+                    <td>
+                        <form action="profile.php" method="post">
+                            <input type="hidden" name="phoneNum" value="<?php echo $one_number['phoneNumber'] ?>" />
+                            <input type="submit" value="Remove" name="remove-number" class="btn btn-danger" />
+                        </form>
+                    </td>
+                </tr>
 
             <?php endforeach; ?>
             <form action="profile.php" method="post">

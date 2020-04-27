@@ -15,7 +15,7 @@ function getUser($email)
     $statement->closecursor();
     if (!is_array($results)) {
         // Redirect to the login page if not logged in
-        header("Location: /cs4750/priorities/login.php");
+        header("Location: login.php");
         die();
     }
     return $results;
@@ -32,7 +32,7 @@ function getList($list_ID)
     $statement->closeCursor();
     if (!is_array($results)) {
         // Redirect to the workspace page if list_ID invalid
-        header("Location: /cs4750/priorities/workspace-page.php");
+        header("Location: workspace-page.php");
         die();
     }
     return $results;

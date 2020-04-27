@@ -22,30 +22,30 @@ $group_ID = array_key_exists('group_ID', $_COOKIE) ? $_COOKIE['group_ID'] : 'gro
 $user = getUser($email);
 
 if (!empty($_POST['db-btn'])) {
-  if (!empty($_POST['title']))
-    newListGroup($_POST['title'], $_POST['description'], $group_ID);
-  else
-    $msg = "Enter list title to create a list";
+    if (!empty($_POST['title']))
+        newListGroup($_POST['title'], $_POST['description'], $group_ID);
+    else
+        $msg = "Enter list title to create a list";
 }
 
 if (!empty($_POST['action'])) {
-  if ($_POST['action'] == "Remove") {
-    if (!empty($_POST['list_ID']))
-      removeListGroup($_POST['list_ID'], $group_ID);
-  } else if ($_POST['action'] == "View List") {
-    if (!empty($_POST['list_ID'])) {
-      setcookie("list_ID", $_POST['list_ID']);
-      header('Location: /cs4750/priorities/items.php');
+    if ($_POST['action'] == "Remove") {
+        if (!empty($_POST['list_ID']))
+            removeListGroup($_POST['list_ID'], $group_ID);
+    } else if ($_POST['action'] == "View List") {
+        if (!empty($_POST['list_ID'])) {
+            setcookie("list_ID", $_POST['list_ID']);
+            header('Location: items.php');
+        }
+    } else if ($_POST['action'] == "Share") {
+        if (!empty($_POST['user_select']) & !empty($_POST['list_ID'])) {
+            shareList($_POST['user_select'], $_POST['list_ID']);
+        }
+    } else if ($_POST['action'] == "Move Back to Workspace") {
+        if (!empty($_POST['list_ID'])) {
+            MoveFromGrouptoList($_POST['list_ID'], $group_ID, $workspace_name, $email);
+        }
     }
-  } else if ($_POST['action'] == "Share") {
-    if (!empty($_POST['user_select']) & !empty($_POST['list_ID'])) {
-      shareList($_POST['user_select'], $_POST['list_ID']);
-    }
-  } else if ($_POST['action'] == "Move Back to Workspace") {
-    if (!empty($_POST['list_ID'])) {
-      MoveFromGrouptoList($_POST['list_ID'], $group_ID, $workspace_name, $email);
-    }
-  }
 }
 
 echo $msg;
@@ -65,7 +65,7 @@ $lists = getAllListsRelevantGroup($group_ID);
     <meta name="description" content="include some description about your page">
     <title>Group Page</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <button><a href="/cs4750/priorities/workspace-page.php">Go back to <?php echo $workspace_name ?> Workspace</a></button>
+    <button><a href="workspace-page.php">Go back to <?php echo $workspace_name ?> Workspace</a></button>
 </head>
 
 <body>
@@ -101,47 +101,47 @@ $lists = getAllListsRelevantGroup($group_ID);
                 <th>&nbsp;</th>
             </tr>
             <?php foreach ($lists as $list) : ?>
-            <tr>
-                <td>
-                    <?php echo $list['list_ID']; ?>
-                </td>
-                <td>
-                    <?php echo $list['title']; ?>
-                </td>
-                <td>
-                    <?php echo $list['description']; ?>
-                </td>
-                <td>
-                    <form action="group.php" method="post">
-                        <input type="submit" value="View List" name="action" class="btn btn-primary" />
-                        <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />
-                    </form>
-                </td>
-                <td>
-                    <form action="group.php" method="post">
-                        <input type="submit" value="Remove" name="action" class="btn btn-danger" />
-                        <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />
-                    </form>
-                </td>
-                <td>
-                    <form action="workspace-page.php" method="post">
-                        <input type="submit" value="Share List" name="action" class="btn btn-info" />
-                        <select name="user_select">
-                            <?php foreach (getUserEmails($list['list_ID']) as $user) : ?>
-                            <option value="<?php echo $user['email'] ?>"><?php echo $user['email'] ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />
-                    </form>
-                </td>
-                <td>
-                    <form action="group.php" method="post">
-                        <input type="submit" value="Move Back to Workspace" name="action" class="btn btn-danger" />
-                        <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />
-                    </form>
-                </td>
+                <tr>
+                    <td>
+                        <?php echo $list['list_ID']; ?>
+                    </td>
+                    <td>
+                        <?php echo $list['title']; ?>
+                    </td>
+                    <td>
+                        <?php echo $list['description']; ?>
+                    </td>
+                    <td>
+                        <form action="group.php" method="post">
+                            <input type="submit" value="View List" name="action" class="btn btn-primary" />
+                            <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />
+                        </form>
+                    </td>
+                    <td>
+                        <form action="group.php" method="post">
+                            <input type="submit" value="Remove" name="action" class="btn btn-danger" />
+                            <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />
+                        </form>
+                    </td>
+                    <td>
+                        <form action="workspace-page.php" method="post">
+                            <input type="submit" value="Share List" name="action" class="btn btn-info" />
+                            <select name="user_select">
+                                <?php foreach (getUserEmails($list['list_ID']) as $user) : ?>
+                                    <option value="<?php echo $user['email'] ?>"><?php echo $user['email'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />
+                        </form>
+                    </td>
+                    <td>
+                        <form action="group.php" method="post">
+                            <input type="submit" value="Move Back to Workspace" name="action" class="btn btn-danger" />
+                            <input type="hidden" name="list_ID" value="<?php echo $list['list_ID'] ?>" />
+                        </form>
+                    </td>
 
-            </tr>
+                </tr>
             <?php endforeach; ?>
         </table>
 

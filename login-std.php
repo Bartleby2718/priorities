@@ -15,9 +15,9 @@ if (!($confirmed_email == false)) {
 	// Redirect to items page
 
 
-	header("Location: /cs4750/priorities/workspace.php");
+	header("Location: workspace.php");
 	exit();
 }
-header("Location: /cs4750/priorities/login.php");
+header("Location: login.php");
 
 exit();

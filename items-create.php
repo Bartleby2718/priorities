@@ -15,5 +15,5 @@ $date_time_due = array_key_exists('date_time_due', $_POST) ? $_POST['date_time_d
 createItem($list_ID, $description, $date_time_due);
 
 // Redirect to items page
-header("Location: /cs4750/priorities/items.php");
+header("Location: items.php");
 die();

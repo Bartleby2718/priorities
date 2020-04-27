@@ -9,17 +9,10 @@ require('login-db.php');
 // 4. use result(s) 
 // 5. close connection
 if (array_key_exists('email', $_COOKIE)) {
-
-
-  header("Location: /cs4750/priorities/workspace-page.php");
-  exit();
+    header("Location: workspace-page.php");
+    exit();
 }
-
-
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html>

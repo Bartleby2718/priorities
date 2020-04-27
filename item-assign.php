@@ -13,5 +13,5 @@ $item_ID = $_POST['item_ID'];
 assignItem($email, $item_ID);
 
 // Redirect to items page
-header("Location: /cs4750/priorities/items.php");
+header("Location: items.php");
 die();

@@ -17,5 +17,5 @@ setrawcookie('email', $_COOKIE['email'] = $acc_email);
 
 // Redirect to items page
 
-header("Location: /cs4750/priorities/workspace.php");
+header("Location: workspace.php");
 exit();

@@ -15,5 +15,5 @@ $message = $_POST['message'];
 createReminder($email, $item_ID, $date_time, $message);
 
 // Redirect to reminders page
-header("Location: /cs4750/priorities/reminders.php");
+header("Location: reminders.php");
 die();

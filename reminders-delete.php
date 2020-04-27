@@ -11,5 +11,5 @@ $reminder_ID = $_POST['reminder_ID'];
 deleteReminder($reminder_ID);
 
 // Redirect to reminders page
-header("Location: /cs4750/priorities/reminders.php");
+header("Location: reminders.php");
 die();

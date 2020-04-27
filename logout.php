@@ -1,5 +1,5 @@
-<?php 
+<?php
 setcookie('email', "", time() - 3600);
 
-header("Location: /cs4750/priorities/login.php");
+header("Location: login.php");
 exit();
