@@ -15,7 +15,7 @@ CREATE TABLE user_phone (
 	email VARCHAR(255),
 	phoneNumber VARCHAR(10),
 	PRIMARY KEY(email, phoneNumber),
-	FOREIGN KEY (email) REFERENCES users(email)
+	FOREIGN KEY (email) REFERENCES users(email) ON DELETE CASCADE
 );
 
 CREATE TABLE workspace (
@@ -23,7 +23,7 @@ CREATE TABLE workspace (
 	workspace_name VARCHAR(255),
 	description TEXT,
 	PRIMARY KEY(email, workspace_name),
-	FOREIGN KEY (email) REFERENCES users(email)
+	FOREIGN KEY (email) REFERENCES users(email) ON DELETE CASCADE
 );
 
 CREATE TABLE lists(
@@ -38,7 +38,7 @@ CREATE TABLE groups (
 	workspace_name VARCHAR(255),
 	group_name VARCHAR(255) NOT NULL,
 	description TEXT,
-	FOREIGN KEY (email,workspace_name) REFERENCES workspace(email,workspace_name)
+	FOREIGN KEY (email,workspace_name) REFERENCES workspace(email,workspace_name) ON DELETE CASCADE
 );
 
 CREATE TABLE workspace_list_connection (
@@ -46,16 +46,16 @@ CREATE TABLE workspace_list_connection (
 	workspace_name VARCHAR(255),
 	list_ID INT,
 	PRIMARY KEY (email, workspace_name, list_ID),
-	FOREIGN KEY(email,workspace_name) REFERENCES workspace(email,workspace_name),
-	FOREIGN KEY(list_ID) REFERENCES lists(list_ID)
+	FOREIGN KEY(email,workspace_name) REFERENCES workspace(email,workspace_name) ON DELETE CASCADE,
+	FOREIGN KEY(list_ID) REFERENCES lists(list_ID) ON DELETE CASCADE
 	);
 
 CREATE TABLE group_list_connection (
 list_ID INT,
 group_ID INT,
 PRIMARY KEY(list_ID, group_ID),
-FOREIGN KEY(list_ID) REFERENCES lists(list_ID),
-FOREIGN KEY(group_ID) REFERENCES groups(group_ID)
+FOREIGN KEY(list_ID) REFERENCES lists(list_ID) ON DELETE CASCADE,
+FOREIGN KEY(group_ID) REFERENCES groups(group_ID) ON DELETE CASCADE
 	);
 	
 CREATE TABLE item(
@@ -64,15 +64,15 @@ CREATE TABLE item(
 	description TEXT NOT NULL,
 	date_time_created DATETIME NOT NULL,
 	date_time_due DATETIME,
-	FOREIGN KEY (list_ID) REFERENCES lists(list_ID)
+	FOREIGN KEY (list_ID) REFERENCES lists(list_ID) ON DELETE CASCADE
 	);
 
 CREATE TABLE item_assignment_connection(
 	email VARCHAR(255),
 	item_ID INT,
 	PRIMARY KEY(email, item_ID),
-	FOREIGN KEY(email) REFERENCES users(email),
-	FOREIGN KEY(item_ID) REFERENCES item(item_ID)
+	FOREIGN KEY(email) REFERENCES users(email) ON DELETE CASCADE,
+	FOREIGN KEY(item_ID) REFERENCES item(item_ID) ON DELETE CASCADE
 );
 
 CREATE TABLE reminder (
@@ -81,8 +81,8 @@ reminder_ID INT PRIMARY KEY AUTO_INCREMENT,
 	item_ID INT,
 	date_time DATETIME NOT NULL,
 	message TEXT NOT NULL,
-	FOREIGN KEY (email) REFERENCES users(email),
-	FOREIGN KEY (item_ID) REFERENCES item(item_ID)
+	FOREIGN KEY (email) REFERENCES users(email) ON DELETE CASCADE,
+	FOREIGN KEY (item_ID) REFERENCES item(item_ID) ON DELETE CASCADE
 	);
 
 CREATE TRIGGER new_user_created 
