@@ -5,7 +5,7 @@
 require('profile-db.php');
 
 // Get information from cookie
-if (array_key_exists('email', $_COOKIE)) {
+if (!array_key_exists('email', $_COOKIE)) {
     header("Location: login.php");
     exit();
 }
